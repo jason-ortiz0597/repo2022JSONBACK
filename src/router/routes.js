@@ -72,13 +72,48 @@ const routes = [
       },
       {
         path: "provaiders",
-        component: () => import("pages/products/provaiderPg.vue"),
+        component: () => import("pages/products/provaider/provaiderPg.vue"),
       },
 
       {
         path: "add-provaider",
-        component: () => import("pages/products/AddProvaiderPg.vue"),
+        component: () => import("pages/products/provaider/AddProvaiderPg.vue"),
       },
+
+      {
+        path: "edit-typeprovaider",
+        component: () => import("pages/products/typeProvaider/EditTypeProvaiderPg.vue"),
+      },
+      {
+        path: "edit-provaider",
+        component: () => import("pages/products/provaider/EditProvaiderPg.vue"),
+      },
+
+      {
+        path: "products",
+        component: () => import("pages/products/product/productPg.vue"),
+      },
+      {
+        path: "add-product",
+        component: () => import("pages/products/product/AddProductPg.vue"),
+      },
+      {
+        path: "edit-product",
+        component: () => import("pages/products/product/EditProductPg.vue"),
+      },
+      {
+        path: "entries",
+        component: () => import("pages/products/entries/entriesPg.vue"),
+      },
+      {
+        path: "outputs",
+        component: () => import("pages/products/outputs/outputPg.vue"),
+      },
+      {
+        path: "inventory",
+        component: () => import("pages/products/inventory/inventoryPg.vue"),
+      },
+
     ],
   },
   {

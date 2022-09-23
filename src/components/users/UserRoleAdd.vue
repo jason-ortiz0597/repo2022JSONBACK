@@ -5,59 +5,28 @@
         {{ userStore.newUser.first_name }} {{ userStore.newUser.last_name }}
       </h6>
       {{ position }}
-      <seladdSin
-        v-model="position"
-        v-bind:model="'name'"
-        v-bind:label="'Cargo del colaborador'"
-        v-bind:noData="'Sin datos, agregue uno'"
-        v-bind:Icon="'assignment_ind'"
-        v-bind:data="
+      <seladdSin v-model="position" v-bind:model="'name'" v-bind:label="'Cargo del colaborador'"
+        v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'assignment_ind'" v-bind:data="
           userStore.positions.map((item) => ({
             label: item.name,
             value: item._id,
           }))
-        "
-        @myDialog="myFunction"
-      />
-      <seladdSin
-        v-model="area"
-        v-bind:model="'area'"
-        v-bind:label="'Area de trabajo'"
-        v-bind:noData="'Sin datos, agregue uno'"
-        v-bind:Icon="'dashboard'"
-        @myDialog="myFunction"
-      />
+        " @myDialog="myFunction" />
+      <seladdSin v-model="area" v-bind:model="'area'" v-bind:label="'Area de trabajo'"
+        v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'dashboard'" @myDialog="myFunction" />
       <q-card>
         <q-card-section class="bg-grey-7 q-pa-xs">
-          <seladdMul
-            v-model="Accesos"
-            v-bind:model="'Access'"
-            v-bind:label="'Accesos'"
-            v-bind:noData="'Sin datos, agregue uno'"
-            v-bind:Icon="'mediation'"
-            @myDialog="myFunction"
-          />
+          <seladdMul v-model="Accesos" v-bind:model="'Access'" v-bind:label="'Accesos'"
+            v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'mediation'" @myDialog="myFunction" />
         </q-card-section>
         <q-separator />
         <q-card-section class="bg-grey-3 q-pa-xs">
-          <seladdMul
-            v-model="ruta"
-            v-bind:model="'routes'"
-            v-bind:label="'Rutas'"
-            v-bind:noData="'Sin datos, agregue uno'"
-            v-bind:Icon="'turn_right'"
-            @myDialog="myFunction"
-          />
+          <seladdMul v-model="ruta" v-bind:model="'routes'" v-bind:label="'Rutas'"
+            v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'turn_right'" @myDialog="myFunction" />
         </q-card-section>
         <q-card-section class="bg-grey-3 q-pa-xs">
-          <seladdMul
-            v-model="ruta"
-            v-bind:model="'routes'"
-            v-bind:label="'Rutas'"
-            v-bind:noData="'Sin datos, agregue uno'"
-            v-bind:Icon="'turn_right'"
-            @myDialog="myFunction"
-          />
+          <seladdMul v-model="ruta" v-bind:model="'routes'" v-bind:label="'Rutas'"
+            v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'turn_right'" @myDialog="myFunction" />
         </q-card-section>
       </q-card>
       <div>
@@ -66,11 +35,7 @@
       </div>
     </div>
   </div>
-  <dialog-add-position
-    v-model="addPos"
-    @cancelEvent="addPos = 'false'"
-    @add-position="addPosition"
-  />
+  <dialog-add-position v-model="addPos" @cancelEvent="addPos = 'false'" @add-position="addPosition" />
 </template>
 <script>
 import { ref } from "vue";
@@ -119,7 +84,7 @@ export default {
         }
       },
 
-      onReset() {},
+      onReset() { },
 
       myFunction(data) {
         addPos.value = true;

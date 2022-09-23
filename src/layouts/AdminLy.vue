@@ -6,7 +6,13 @@
           <div>
             <q-btn glossy @click="drawer = !drawer" round dense icon="menu" color="blue-grey-9" class="q-mr-sm" />
           </div>
-          <img src="../assets/image/logo-sii-pi-verde.svg" style="height: 6vh" class="q-my-xs" />
+          <q-btn round to="/admin/">
+            <q-avatar size="50px">
+              <img src="../assets/image/logo-sii-pi-verde.svg" style="height: 6vh" class="q-my-xs" />
+            </q-avatar>
+          </q-btn>
+          <!----   <img src="../assets/image/logo-sii-pi-verde.svg" style="height: 6vh" class="q-my-xs" /> ---->
+
         </div>
         <div class="row">
           <div v-if="!authStore.loggedIn" class="q-gutter-sm">
@@ -78,10 +84,34 @@ const menuList = [
     to: "/admin/users",
   },
   {
-    icon: "engineering",
-    label: "Tipo de Proveedores",
+    icon: "airport_shuttle",
+    label: "Proveedores",
     separator: true,
     to: "/admin/provaiders",
+  },
+  {
+    icon: "local_cafe",
+    label: "Productos",
+    separator: true,
+    to: "/admin/products",
+  },
+  {
+    icon: "last_page",
+    label: "Entradas de productos",
+    separator: true,
+    to: "/admin/entries",
+  },
+  {
+    icon: "first_page",
+    label: "Salidas de productos",
+    separator: true,
+    to: "/admin/outputs",
+  },
+  {
+    icon: "receipt_long",
+    label: "Inventario",
+    separator: true,
+    to: "/admin/inventory",
   }
 ];
 export default defineComponent({
@@ -89,8 +119,10 @@ export default defineComponent({
     const authStore = useAuthStore();
     const $q = useQuasar();
     const router = useRouter();
+    const fab1 = ref(false);
     return {
       drawer: ref(false),
+      fab1,
       menuList,
       authStore,
 

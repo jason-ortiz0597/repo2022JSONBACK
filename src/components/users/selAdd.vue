@@ -3,11 +3,9 @@
         <template v-slot:append>
             <q-icon :name="Icon" />
         </template>
-        <template v-slot:hint> Prueba </template>
+        <template v-slot:hint> Field hint </template>
 
-        <template v-slot:after>
-            <q-btn round color="green-14" icon="add" @click="$emit('myDialog', model)" />
-        </template>
+
         <template v-slot:no-option>
             <q-item>
                 <q-item-section class="text-italic text-grey">
@@ -21,7 +19,7 @@
 import { ref, defineComponent } from "vue";
 
 export default defineComponent({
-    name: "sel-add-provaider",
+    name: "sel-Add",
     props: {
         model: {
             type: String,

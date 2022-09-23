@@ -15,8 +15,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="observations">
-          <div class="text-h6">Movies</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <!---  <provaider-update />   -->
         </q-tab-panel>
 
         <q-tab-panel name="references">
@@ -29,7 +28,8 @@
 </template>
 <script>
 import { ref, defineComponent } from "vue";
-import ProvaiderDataAdd from "src/components/products/ProvaiderDataAdd.vue";
+import ProvaiderDataAdd from "src/components/products/provaider/ProvaiderDataAdd.vue";
+
 
 import { useProductStore } from "stores/product-store";
 

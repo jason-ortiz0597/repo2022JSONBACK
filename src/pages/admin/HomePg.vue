@@ -1,89 +1,42 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-      <q-input
-        filled
-        v-model="name"
-        label="Your name *"
-        hint="Name and surname"
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-      />
+  <div class=" text-black text-center q-pa-md ">
+    <div>
 
-      <q-input
-        filled
-        type="number"
-        v-model="age"
-        label="Your age *"
-        lazy-rules
-        :rules="[
-          (val) => (val !== null && val !== '') || 'Please type your age',
-          (val) => (val > 0 && val < 100) || 'Please type a real age',
-        ]"
-      />
 
-      <q-toggle v-model="accept" label="I accept the license and terms" />
+      <div style="font-size: 10vh">
+        BIENVENIDO A SIIPI SISTEMAS
 
-      <div>
-        <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn
-          label="Reset"
-          type="reset"
-          color="primary"
-          flat
-          class="q-ml-sm"
-        />
       </div>
-    </q-form>
+
+      <div class="text-h2 q-pa-md q-gutter-sm">
+        Version en Desarrollo V-01
+
+      </div>
+
+      <div class="q-pa-md q-gutter-sm">
+        <q-img
+          src="https://res.cloudinary.com/siibolivia/image/upload/v1661540460/product-siipi2022/wyiphmxxxtwl0osb931w.jpg"
+          :ratio="16 / 9" spinner-color="primary" spinner-size="82px" style="max-width: 300px; height: 350px;" />
+
+        <!-- Drawer Begin.  <q-img
+            src="https://res.cloudinary.com/siibolivia/image/upload/v1661540460/product-siipi2022/wyiphmxxxtwl0osb931w.jpg"
+            
+          />-->
+      </div>
+
+
+    </div>
   </div>
 </template>
 
 <script>
-import { useQuasar } from "quasar";
-import { onMounted, ref } from "vue";
+
 
 export default {
   setup() {
-    const $q = useQuasar();
-
-    const name = ref(null);
-    const age = ref(null);
-    const accept = ref(false);
-
-    onMounted(() => {
-      name.value = "pedro";
-      age.value = "25";
-      accept.value = true;
-    });
 
     return {
-      name,
-      age,
-      accept,
 
-      onSubmit() {
-        if (accept.value !== true) {
-          $q.notify({
-            color: "red-5",
-            textColor: "white",
-            icon: "warning",
-            message: "You need to accept the license and terms first",
-          });
-        } else {
-          $q.notify({
-            color: "green-4",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Submitted",
-          });
-        }
-      },
-
-      onReset() {
-        name.value = null;
-        age.value = null;
-        accept.value = false;
-      },
     };
   },
 };
