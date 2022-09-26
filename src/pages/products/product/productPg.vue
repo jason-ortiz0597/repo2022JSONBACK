@@ -1,32 +1,98 @@
 <template>
     <div class="q-pa-md">
-        <q-table title="Productos" :rows="productStore.products" :columns="columns"
-            no-data-label="No existen datos para mostrar" row-key="id" :filter="filter">
-            <template v-slot:top-right>
-                <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                    <template v-slot:append>
-                        <q-icon name="search" />
-                    </template>
-                </q-input>
-                <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
-                <q-btn icon="add" color="primary" to="add-product" class="q-ml-lg" />
-            </template>
-            <template v-slot:body-cell-actions="props">
-                <q-td :props="props" class="q-ma-none">
-                    <q-btn icon="visibility" color="secondary" flat round
-                        @click="myview(props.row), (confirm = true)" />
-                    <q-btn icon="edit" color="primary" flat round @click="myeditProd(props.row)" />
-                    <q-btn icon="delete" color="red" flat round @click="mydeleteProd(props.row)" />
-                </q-td>
-            </template>
 
-            <!--  <template v-slot:body-cell-image="props">
+        <q-card>
+            <q-tabs v-model="tab" class="bg-orange text-white shadow-2" active-color="grey-14" indicator-color="green"
+                align="justify" narrow-indicator>
+                <q-tab name="products" label="Productos" />
+                <q-tab name="warehouses" label="Almacenes" />
+                <q-tab name="typeProduct" label="Tipos de Productos" />
+            </q-tabs>
+
+            <q-separator />
+
+            <q-tab-panels v-model="tab" animated>
+                <q-tab-panel name="products">
+
+                    <q-table title="Productos" :rows="productStore.products" :columns="columns" :grid="$q.screen.xs"
+                        no-data-label="No existen datos para mostrar" row-key="id" :filter="filter">
+                        <template v-slot:top-right>
+                            <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                            <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
+                            <q-btn icon="add" color="primary" to="add-product" class="q-ml-lg" />
+                        </template>
+                        <template v-slot:body-cell-actions="props">
+                            <q-td :props="props" class="q-ma-none">
+                                <q-btn icon="visibility" color="secondary" flat round
+                                    @click="myview(props.row), (confirm = true)" />
+                                <q-btn icon="edit" color="primary" flat round @click="myeditProd(props.row)" />
+                                <q-btn icon="delete" color="red" flat round @click="mydeleteProd(props.row)" />
+                            </q-td>
+                        </template>
+
+                        <!--  <template v-slot:body-cell-image="props">
                 <q-td :props="props" class="q-ma-none">
                     <q-img :src="props.row.image.secure_url" style="width: 100px; height: 100px;" />
 
                 </q-td>
             </template> -->
-        </q-table>
+
+                    </q-table>
+                </q-tab-panel>
+
+                <q-tab-panel name="warehouses">
+
+                    <q-table title="Almacenes" :rows="productStore.warehouses" :columns="columns2" :grid="$q.screen.xs"
+                        no-data-label="No existen datos para mostrar" row-key="id" :filter="filter2">
+                        <template v-slot:top-right>
+                            <q-input borderless dense debounce="300" v-model="filter2" placeholder="Search">
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                            <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
+                            <q-btn icon="add" color="primary" to="add-provaider" class="q-ml-lg" />
+                        </template>
+                        <template v-slot:body-cell-actions="props">
+                            <q-td :props="props" class="q-ma-none">
+                                <q-btn icon="edit" color="primary" flat round @click="myedit(props.row)" />
+                                <q-btn icon="delete" color="red" flat round @click="mydelete(props.row)" />
+                            </q-td>
+                        </template>
+                    </q-table>
+
+                </q-tab-panel>
+
+                <q-tab-panel name="typeProduct">
+
+                    <q-table title="Tipo de Producto" :rows="productStore.typeProducts" :columns="columns3"
+                        :grid="$q.screen.xs" no-data-label="No existen datos para mostrar" row-key="id"
+                        :filter="filter3">
+                        <template v-slot:top-right>
+                            <q-input borderless dense debounce="300" v-model="filter3" placeholder="Search">
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                            <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
+                            <q-btn icon="add" color="primary" to="add-provaider" class="q-ml-lg" />
+                        </template>
+                        <template v-slot:body-cell-actions="props">
+                            <q-td :props="props" class="q-ma-none">
+                                <q-btn icon="edit" color="primary" flat round @click="myedit(props.row)" />
+                                <q-btn icon="delete" color="red" flat round @click="mydelete(props.row)" />
+                            </q-td>
+                        </template>
+                    </q-table>
+                </q-tab-panel>
+            </q-tab-panels>
+        </q-card>
+
+
         <q-dialog v-model="confirm">
             <q-card class="my-card">
                 <q-card-section class="row">
@@ -41,7 +107,7 @@
                     <q-list bordered>
 
                         <q-separator spaced inset vertical dark />
-                        <q-item-section class="text-h6">Fecha de Expiracion
+                        <q-item-section class="text-h6 text-center">Fecha de Expiracion
                         </q-item-section>
                         <q-item clickable v-ripple>
                             <q-item-section avatar>
@@ -52,11 +118,11 @@
                                 {{ productStore.imageProduct.dateOfExpiration }}
                             </q-item-section>
                         </q-item>
-                        <q-item-section class="text-h6 ">Ubicacion del Producto
+                        <q-item-section class="text-h6 text-center ">Ubicacion del Producto
                         </q-item-section>
                         <q-item clickable v-ripple>
                             <q-item-section avatar>
-                                <q-icon color="blue-grey-8" name="place" />
+                                <q-icon color="green-14" name="place" />
                             </q-item-section>
                             <q-item-section> {{ productStore.imageProduct.warehouse.name }}
                             </q-item-section>
@@ -65,11 +131,11 @@
                             <q-item-section>Estante {{ productStore.imageProduct.shelf }}
                             </q-item-section>
                         </q-item>
-                        <q-item-section class="text-h6">Margen de Dia de Expiracion
+                        <q-item-section class="text-h6 text-center">Margen de Dia de Expiracion
                         </q-item-section>
                         <q-item clickable v-ripple>
                             <q-item-section avatar>
-                                <q-icon color="blue-grey-8" name="schedule" />
+                                <q-icon color="orange-14" name="schedule" />
                             </q-item-section>
 
                             <q-item-section>
@@ -84,28 +150,9 @@
                 </q-card-actions> -->
             </q-card>
         </q-dialog>
+
     </div>
 
-    <div class="q-pa-md">
-        <q-table title="Almacenes" :rows="productStore.warehouses" :columns="columns2"
-            no-data-label="No existen datos para mostrar" row-key="id" :filter="filter2">
-            <template v-slot:top-right>
-                <q-input borderless dense debounce="300" v-model="filter2" placeholder="Search">
-                    <template v-slot:append>
-                        <q-icon name="search" />
-                    </template>
-                </q-input>
-                <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
-                <q-btn icon="add" color="primary" to="add-provaider" class="q-ml-lg" />
-            </template>
-            <template v-slot:body-cell-actions="props">
-                <q-td :props="props" class="q-ma-none">
-                    <q-btn icon="edit" color="primary" flat round @click="myedit(props.row)" />
-                    <q-btn icon="delete" color="red" flat round @click="mydelete(props.row)" />
-                </q-td>
-            </template>
-        </q-table>
-    </div>
 
     <q-separator spaced inset vertical dark />
 </template>
@@ -205,6 +252,36 @@ const columns2 = [
     },
 ];
 
+const columns3 = [
+
+    {
+        name: "name",
+        required: true,
+        label: "Nombre",
+        align: "left",
+        field: (row) => row.name,
+        format: (val) => `${val}`,
+        sortable: true,
+    },
+
+
+    {
+        name: "status",
+        label: "Estado",
+        field: "status",
+        align: "left",
+        sortable: true,
+    },
+
+    {
+        name: "actions",
+        label: "Acciones",
+        align: "right",
+        sortable: false,
+    }
+
+]
+
 export default defineComponent({
     name: "ProductPg",
 
@@ -225,12 +302,15 @@ export default defineComponent({
         return {
             filter: ref(""),
             filter2: ref(""),
+            filter3: ref(""),
             columns,
             columns2,
+            columns3,
             rows,
             productStore,
             router,
             confirm,
+            tab: ref('products'),
 
             myeditProd(row) {
                 productStore.editProduct(row._id);

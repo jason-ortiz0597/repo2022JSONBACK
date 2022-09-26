@@ -57,7 +57,7 @@ export const useProductStore = defineStore('ProductStore', {
                 const { data } = await api.get("api/product/list")
 
                 data.forEach(element => {
-                    element.dateOfExpiration = date.formatDate(element.dateOfExpiration, 'DD/MM/YYYY')
+                    element.dateOfExpiration = date.formatDate(element.dateOfExpiration, 'YYYY/MM/DD')
                 });
                 console.log(data)
                 this.products = data
@@ -93,6 +93,35 @@ export const useProductStore = defineStore('ProductStore', {
                 console.log(error)
             }
         },
+
+        async addTypeProduct(name, status) {
+            try {
+                const { data } = await api.post("api/typeProduct/create", {
+                    name,
+                    status
+                })
+                this.typeProducts.push(data)
+
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async addWarehouse(name, address, status) {
+            try {
+                const { data } = await api.post("api/warehouse/create", {
+                    name,
+                    address,
+                    status
+                })
+                this.warehouses.push(data)
+
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+
 
         async deleteTypeProvider(id) {
             try {
@@ -135,6 +164,7 @@ export const useProductStore = defineStore('ProductStore', {
 
         editProduct(id) {
             const data = this.products.find((product) => product._id === id);
+
             this.newProduct = data;
         },
 

@@ -7,6 +7,7 @@
 
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-lg q-mt-md">
 
+
                 <q-input filled v-model="name" label="Nombre del Producto *" hint="Mínimo 3, Máximo 30 caracteres"
                     lazy-rules :rules="[
                       (val) =>
@@ -38,7 +39,7 @@
                         label: item.name,
                         value: item._id,
                       }))
-                    " @myDialog="myFunction" />
+                    " @myDialog="myFunction2" />
 
                 <q-input filled v-model="shelf" type="text" label="Estante" />
 
@@ -75,7 +76,7 @@
                   { label: 'deleted', value: 'deleted' },
                 ]" />
 
-                <q-file color="teal" filled v-model="image" label="Imagen del Producto">
+                <q-file label-color="orange" filled use-chips v-model="image" label="Imagen del Producto">
                     <template v-slot:append>
                         <q-icon name="cloud_upload" />
                     </template>
@@ -92,7 +93,10 @@
         </div>
     </div>
     <!--me quede aqui mañana seguir por favor-->
-    <dialog-add-provaider v-model="addProv" @cancelEvent="addProv = 'false'" @addTypeProvaider="addTypeProvaider" />
+
+    <dialog-add-type-product v-model="addTP" @cancelEvent="addTP = 'false'" @addTypeProduct="addTypeProduct" />
+
+    <dialog-add-warehouse v-model="addW" @cancelEvent="addW = 'false'" @addWarehouse="addWarehouse" />
 </template>
 <script>
 import { ref } from "vue";
@@ -101,15 +105,17 @@ import { useRouter } from "vue-router";
 import seladdSin from "src/components/users/seladdSin.vue";
 import selAdd from "src/components/users/selAdd.vue";
 import { useProductStore } from "stores/product-store";
-import DialogAddProvaider from "../typeProvaider/DialogAddTypeProvaider.vue";
+import DialogAddTypeProduct from "src/components/products/warehouse/DialogAddTypeProduct.vue";
+import DialogAddWarehouse from "src/components/products/warehouse/DialogAddWarehouse.vue";
 import { api } from "src/boot/axios";
 
 export default {
     name: "ProductAdd",
     components: {
         seladdSin,
-        DialogAddProvaider,
         selAdd,
+        DialogAddTypeProduct,
+        DialogAddWarehouse,
     },
     setup() {
         const $q = useQuasar();
@@ -117,7 +123,9 @@ export default {
 
         const productStore = useProductStore();
 
-        const addProv = ref(false);
+
+        const addTP = ref(false);
+        const addW = ref(false);
 
         const name = ref("");
         const provaider = ref("");
@@ -137,8 +145,8 @@ export default {
             router,
             $q,
             productStore,
-            addProv,
-
+            addTP,
+            addW,
             name,
             provaider,
             typeProduct,
@@ -205,11 +213,26 @@ export default {
             },
 
             myFunction(data) {
-                addProv.value = true;
+
+                addTP.value = true;
+
+            },
+
+            myFunction2(data) {
+
+                addW.value = true;
             },
 
             addTypeProvaider(data) {
                 productStore.addTypeProvider(data.name, data.description, data.status);
+            },
+
+            addTypeProduct(data) {
+                productStore.addTypeProduct(data.name, data.status);
+            },
+
+            addWarehouse(data) {
+                productStore.addWarehouse(data.name, data.address, data.status);
             },
         };
     },

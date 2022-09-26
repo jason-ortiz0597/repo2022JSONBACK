@@ -1,61 +1,95 @@
 <template>
   <div class="row justify-center">
-    <div class="col-xs-10 col-sm-6 col-md-5 col-lg-5 col-xl-2">
+    <div>
       <h6 class="q-ma-none">
         <!--{{ productStore.typeProvaiders.name }} -->
 
       </h6>
 
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-lg q-mt-md">
-        <q-input filled v-model="legalReason" label="Razon Social *" hint="Mínimo 3, Máximo 30 caracteres" lazy-rules
-          :rules="[
-            (val) =>
-              (val && val.length > 2) || 'Nombre(s), Mínimo 3 caracteres',
-            (val) => val.length < 31 || 'Nombre(s), Máximo 30 caracteres',
-          ]" />
 
-        <q-input filled v-model="address" label="Dirección *" hint="Mínimo 5, Máximo 50 caracteres" lazy-rules :rules="[
-          (val) => (val && val.length > 4) || 'Mínimo 6 caracteres',
-          (val) => val.length < 51 || 'Máximo 50 caracteres',
-        ]" />
+        <div class="q-pa-md">
+          <div class="row q-col-gutter-x-md">
+            <div class="col-6 ">
+              <q-input filled v-model="legalReason" label="Razon Social *" hint="Mínimo 3, Máximo 30 caracteres"
+                lazy-rules :rules="[
+                  (val) =>
+                    (val && val.length > 2) || 'Nombre(s), Mínimo 3 caracteres',
+                  (val) => val.length < 31 || 'Nombre(s), Máximo 30 caracteres',
+                ]" />
 
-        <q-input filled type="number" v-model="phone" label="Numero de teléfono *" hint="Mínimo 7, Máximo 8 dígitos"
-          lazy-rules :rules="[
-            (val) =>
-              (val !== null && val !== '') || 'Ingrese un número de teléfono',
-            (val) =>
-              (val > 20000000 && val < 89999999) || 'Ingrese un número válido',
-          ]" />
+            </div>
 
-        <q-input filled v-model="email" type="email" label="Tu email *" hint="Mínimo 5, Máximo 50 caracteres" lazy-rules
-          :rules="[
-            (val) => val.length > 5 || 'Mínimo 6 caracteres',
-            (val) => val.length < 51 || 'Máximo 50 caracteres',
-            (val) => isValidEmail(val) || 'Email inválido',
-            (val) => emailValid(val) || 'Email ya registrado',
-          ]" />
+            <div class="col-6">
+              <q-input filled v-model="address" label="Dirección *" hint="Mínimo 5, Máximo 50 caracteres" lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 4) || 'Mínimo 6 caracteres',
+                  (val) => val.length < 51 || 'Máximo 50 caracteres',
+                ]" />
+            </div>
 
-        <seladdSin v-model="typeProvaider" v-bind:model="'name'" v-bind:label="'Tipo de Proveedor'"
-          v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'assignment_ind'" v-bind:data="
-            productStore.typeProvaiders.map((item) => ({
-              label: item.name,
-              value: item._id,
-            }))
-          " @myDialog="myFunction" />
+            <div class="col-6">
+              <q-input filled type="number" v-model="phone" label="Numero de teléfono *"
+                hint="Mínimo 7, Máximo 8 dígitos" lazy-rules :rules="[
+                  (val) =>
+                    (val !== null && val !== '') || 'Ingrese un número de teléfono',
+                  (val) =>
+                    (val > 20000000 && val < 89999999) || 'Ingrese un número válido',
+                ]" />
+            </div>
 
-        <q-input filled v-model="contact" label="Contacto *" hint="Mínimo 3, Máximo 30 caracteres" lazy-rules :rules="[
-          (val) =>
-            (val && val.length > 2) || 'Nombre(s), Mínimo 3 caracteres',
-          (val) => val.length < 31 || 'Nombre(s), Máximo 30 caracteres',
-        ]" />
+            <div class="col-6">
+              <q-input filled v-model="email" type="email" label="Tu email *" hint="Mínimo 5, Máximo 50 caracteres"
+                lazy-rules :rules="[
+                  (val) => val.length > 5 || 'Mínimo 6 caracteres',
+                  (val) => val.length < 51 || 'Máximo 50 caracteres',
+                  (val) => isValidEmail(val) || 'Email inválido',
+                  (val) => emailValid(val) || 'Email ya registrado',
+                ]" />
+            </div>
 
-        <q-input filled type="number" v-model="phoneContact" label="Numero de teléfono *"
-          hint="Mínimo 7, Máximo 8 dígitos" lazy-rules :rules="[
-            (val) =>
-              (val !== null && val !== '') || 'Ingrese un número de teléfono',
-            (val) =>
-              (val > 20000000 && val < 89999999) || 'Ingrese un número válido',
-          ]" />
+            <div class="col-6">
+              <q-input filled v-model="contact" label="Contacto *" hint="Mínimo 3, Máximo 30 caracteres" lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 2) || 'Nombre(s), Mínimo 3 caracteres',
+                  (val) => val.length < 31 || 'Nombre(s), Máximo 30 caracteres',
+                ]" />
+            </div>
+
+            <div class="col-6">
+              <q-input filled type="number" v-model="phoneContact" label="Numero de teléfono *"
+                hint="Mínimo 7, Máximo 8 dígitos" lazy-rules :rules="[
+                  (val) =>
+                    (val !== null && val !== '') || 'Ingrese un número de teléfono',
+                  (val) =>
+                    (val > 20000000 && val < 89999999) || 'Ingrese un número válido',
+                ]" />
+            </div>
+
+            <div class="col-6">
+              <seladdSin v-model="typeProvaider" v-bind:model="'name'" v-bind:label="'Tipo de Proveedor'"
+                v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'assignment_ind'" v-bind:data="
+                  productStore.typeProvaiders.map((item) => ({
+                    label: item.name,
+                    value: item._id,
+                  }))
+                " @myDialog="myFunction" />
+            </div>
+
+            <div class="col-6">
+              <q-select filled v-model="status" label="Estado del  Proveedor *" :options="[
+                { label: 'active', value: 'active' },
+                { label: 'inactive', value: 'inactive' },
+                { label: 'pending', value: 'pending' },
+                { label: 'blocked', value: 'blocked' },
+                { label: 'deleted', value: 'deleted' },
+              ]" />
+            </div>
+
+
+          </div>
+        </div>
 
         <!---<q-input filled v-model="status" label="Estado del Tipo de Proveedor *"
           hint="Usar active o inactive o pending o blocked o deleted" lazy-rules :rules="[
@@ -64,17 +98,7 @@
           ]" /> -->
 
 
-        <q-select filled v-model="status" label="Estado del  Proveedor *" :options="[
-          { label: 'active', value: 'active' },
-          { label: 'inactive', value: 'inactive' },
-          { label: 'pending', value: 'pending' },
-          { label: 'blocked', value: 'blocked' },
-          { label: 'deleted', value: 'deleted' },
-        ]" />
-
-
-
-        <div>
+        <div class="row justify-center">
           <q-btn label="Guardar" type="submit" color="orange" />
           <q-btn label="Cancelar" type="reset" color="grey-6" class="q-ml-sm" />
         </div>

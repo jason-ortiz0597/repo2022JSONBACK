@@ -1,5 +1,10 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md row justify-between">
+    <q-btn color="orange-13" icon="fa-solid fa-street-view" class="glossy" rounded v-if="hide2" label="Proveedores"
+      @click="onClick2" />
+    <q-btn color="grey-14" class="glossy" rounded v-else icon="undo" @click="onClick2" />
+  </div>
+  <div class="q-pa-md" v-if="!hide2">
     <q-table title="Proveedores" :rows="productStore.provaiders" :columns="columns"
       no-data-label="No existen datos para mostrar" row-key="id" :filter="filter">
       <template v-slot:top-right>
@@ -23,7 +28,12 @@
 
   <q-separator spaced inset vertical dark />
 
-  <div class="q-pa-md" v-if="Object.keys(productStore.typeProvaiders).length !== 0">
+  <div class="q-pa-md row justify-between">
+    <q-btn color="orange-13" icon="help_outline" class="glossy" rounded v-if="hide" label="Tipo de Proveedor"
+      @click="onClick" />
+    <q-btn color="grey-14" class="glossy" rounded v-else icon="undo" @click="onClick" />
+  </div>
+  <div class="q-pa-md" v-if="!hide">
     <q-table title="Tipos de Proveedores" :rows="productStore.typeProvaiders" :columns="columns2"
       no-data-label="No existen datos para mostrar" row-key="id" :filter="filter2">
       <template v-slot:top-right>
@@ -32,8 +42,7 @@
             <q-icon name="search" />
           </template>
         </q-input>
-        <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
-        <!-- <q-btn icon="add" color="primary" to="add-provaider" class="q-ml-lg" /> -->
+
       </template>
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" class="q-ma-none">
@@ -43,8 +52,17 @@
       </template>
       <template></template>
     </q-table>
+
   </div>
+
+
+
+
+
 </template>
+ <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
+        <!-- <q-btn icon="add" color="primary" to="add-provaider" class="q-ml-lg" /> 
+        v-if="Object.keys(productStore.typeProvaiders).length !== 0" -->
 
 <script>
 import { ref, defineComponent, onMounted } from "vue";
@@ -142,7 +160,9 @@ const columns2 = [
   },
 
 
-]
+];
+
+
 
 export default defineComponent({
   name: "ProvaiderPg",
@@ -152,11 +172,21 @@ export default defineComponent({
     const rows = ref([]);
     const productStore = useProductStore();
     const router = useRouter();
+    const hide = ref(true);
+    const hide2 = ref(false);
 
     onMounted(async () => {
       await productStore.getProviders();
       await productStore.getTypeProviders();
     });
+
+    const onClick = () => {
+      hide.value = !hide.value;
+    };
+
+    const onClick2 = () => {
+      hide2.value = !hide2.value;
+    };
 
     return {
       filter: ref(""),
@@ -166,6 +196,10 @@ export default defineComponent({
       productStore,
       router,
       columns2,
+      hide,
+      hide2,
+      onClick,
+      onClick2,
 
       myedit(row) {
         productStore.editTypeProvaider(row._id);
