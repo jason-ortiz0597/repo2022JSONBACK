@@ -1,63 +1,64 @@
 <template>
-  <div class="q-pa-md row justify-between">
-    <q-btn color="orange-13" icon="fa-solid fa-street-view" class="glossy" rounded v-if="hide2" label="Proveedores"
-      @click="onClick2" />
-    <q-btn color="grey-14" class="glossy" rounded v-else icon="undo" @click="onClick2" />
-  </div>
-  <div class="q-pa-md" v-if="!hide2">
-    <q-table title="Proveedores" :rows="productStore.provaiders" :columns="columns"
-      no-data-label="No existen datos para mostrar" row-key="id" :filter="filter">
-      <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-        <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
-        <q-btn icon="add" color="primary" to="add-provaider" class="q-ml-lg" />
-      </template>
-      <template v-slot:body-cell-actions="props">
-        <q-td :props="props" class="q-ma-none">
-          <q-btn icon="edit" color="primary" flat round @click="myeditProv(props.row)" />
-          <q-btn icon="delete" color="red" flat round @click="mydeleteProv(props.row)" />
-        </q-td>
-      </template>
-      <template></template>
-    </q-table>
+
+  <div class="q-pa-md">
+    <q-card>
+      <q-tabs v-model="tab" class="bg-orange text-white shadow-2" active-color="grey-14" indicator-color="green"
+        align="justify" narrow-indicator>
+        <q-tab name="provaiders" label="Proveedores" icon="fa-solid fa-chalkboard-user" />
+        <q-tab name="typeProvaiders" label="Tipo Proveedores" icon="fa-solid fa-clipboard-question" />
+      </q-tabs>
+
+      <q-separator />
+
+      <q-tab-panels v-model="tab" animated>
+        <q-tab-panel name="provaiders">
+          <q-table title="Proveedores" :rows="productStore.provaiders" :columns="columns"
+            no-data-label="No existen datos para mostrar" row-key="id" :filter="filter">
+            <template v-slot:top-right>
+              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+              <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
+              <q-btn icon="add" color="green-14" to="add-provaider" class="q-ml-lg" />
+            </template>
+            <template v-slot:body-cell-actions="props">
+              <q-td :props="props" class="q-ma-none">
+                <q-btn icon="edit" color="primary" flat round @click="myeditProv(props.row)" />
+                <q-btn icon="delete" color="red" flat round @click="mydeleteProv(props.row)" />
+              </q-td>
+            </template>
+            <template></template>
+          </q-table>
+        </q-tab-panel>
+        <q-tab-panel name="typeProvaiders">
+          <q-table title="Tipos de Proveedores" :rows="productStore.typeProvaiders" :columns="columns2"
+            no-data-label="No existen datos para mostrar" row-key="id" :filter="filter2">
+            <template v-slot:top-right>
+              <q-input borderless dense debounce="300" v-model="filter2" placeholder="Search">
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+
+            </template>
+            <template v-slot:body-cell-actions="props">
+              <q-td :props="props" class="q-ma-none">
+                <q-btn icon="edit" color="primary" flat round @click="myedit(props.row)" />
+                <q-btn icon="delete" color="red" flat round @click="mydelete(props.row)" />
+              </q-td>
+            </template>
+            <template></template>
+          </q-table>
+        </q-tab-panel>
+      </q-tab-panels>
+    </q-card>
+
+
   </div>
 
   <q-separator spaced inset vertical dark />
-
-  <div class="q-pa-md row justify-between">
-    <q-btn color="orange-13" icon="help_outline" class="glossy" rounded v-if="hide" label="Tipo de Proveedor"
-      @click="onClick" />
-    <q-btn color="grey-14" class="glossy" rounded v-else icon="undo" @click="onClick" />
-  </div>
-  <div class="q-pa-md" v-if="!hide">
-    <q-table title="Tipos de Proveedores" :rows="productStore.typeProvaiders" :columns="columns2"
-      no-data-label="No existen datos para mostrar" row-key="id" :filter="filter2">
-      <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter2" placeholder="Search">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-
-      </template>
-      <template v-slot:body-cell-actions="props">
-        <q-td :props="props" class="q-ma-none">
-          <q-btn icon="edit" color="primary" flat round @click="myedit(props.row)" />
-          <q-btn icon="delete" color="red" flat round @click="mydelete(props.row)" />
-        </q-td>
-      </template>
-      <template></template>
-    </q-table>
-
-  </div>
-
-
-
-
 
 </template>
  <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
@@ -172,21 +173,12 @@ export default defineComponent({
     const rows = ref([]);
     const productStore = useProductStore();
     const router = useRouter();
-    const hide = ref(true);
-    const hide2 = ref(false);
 
     onMounted(async () => {
       await productStore.getProviders();
       await productStore.getTypeProviders();
     });
 
-    const onClick = () => {
-      hide.value = !hide.value;
-    };
-
-    const onClick2 = () => {
-      hide2.value = !hide2.value;
-    };
 
     return {
       filter: ref(""),
@@ -196,10 +188,8 @@ export default defineComponent({
       productStore,
       router,
       columns2,
-      hide,
-      hide2,
-      onClick,
-      onClick2,
+      tab: ref('provaiders'),
+
 
       myedit(row) {
         productStore.editTypeProvaider(row._id);

@@ -124,6 +124,7 @@ export default {
 
     const addProv = ref(false);
 
+
     const name = ref(productStore.newProduct.name) || "";
     const provaider = ref(productStore.newProduct.provaider.legalReason) || "";
     const typeProduct = ref(productStore.newProduct.typeProduct.name) || "";
@@ -136,6 +137,14 @@ export default {
     const dayMargin = ref(productStore.newProduct.dayMargin) || "";
     const status = ref(productStore.newProduct.status) || "";
     const image = ref([productStore.newProduct.image]) || "";
+
+
+
+
+
+
+
+
 
 
     return {
@@ -162,9 +171,9 @@ export default {
         try {
           const data = new FormData();
           data.set("name", name.value);
-          data.set("provaider", provaider.value);
-          data.set("typeProduct", typeProduct.value);
-          data.set("warehouse", warehouse.value);
+          data.set("provaider", provaider.value.value);
+          data.set("typeProduct", typeProduct.value.value);
+          data.set("warehouse", warehouse.value.value);
           data.set("shelf", shelf.value);
           data.set("hallway", hallway.value);
           data.set("stock", stock.value);
@@ -187,16 +196,17 @@ export default {
           console.log(data.get("status"));
           console.log(data.get("image"));
 
-          /* const response = await api.put(
-             `/api/product/update/${productStore.newProduct._id}`,
-             data
-           );
-           $q.notify({
-             message: "Producto Actualizado",
-             color: "positive",
-             position: "top",
-           });
-           router.push("/admin/products"); */
+          const response = await api.put(
+            `/api/product/update/${productStore.newProduct._id}`,
+            data
+          );
+          console.log(response);
+          $q.notify({
+            message: "Producto Actualizado",
+            color: "positive",
+            position: "top",
+          });
+          router.push("/admin/products");
 
         } catch (error) {
           console.log(error);

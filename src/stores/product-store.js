@@ -15,6 +15,7 @@ export const useProductStore = defineStore('ProductStore', {
         newProduct: [],
         newWarehouse: [],
         imageProduct: [],
+        entries: [],
     }),
 
     actions: {
@@ -74,6 +75,18 @@ export const useProductStore = defineStore('ProductStore', {
                 const { data } = await api.get("api/typeProduct/listActive")
 
                 this.typeProducts = data
+
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getEntries() {
+            try {
+                const { data } = await api.get("api/entries/list")
+                console.log(data)
+                this.entries = data
+
 
             } catch (error) {
                 console.log(error)

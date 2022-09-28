@@ -4,9 +4,9 @@
         <q-card>
             <q-tabs v-model="tab" class="bg-orange text-white shadow-2" active-color="grey-14" indicator-color="green"
                 align="justify" narrow-indicator>
-                <q-tab name="products" label="Productos" />
-                <q-tab name="warehouses" label="Almacenes" />
-                <q-tab name="typeProduct" label="Tipos de Productos" />
+                <q-tab name="products" label="Productos" icon="fa-solid fa-seedling" />
+                <q-tab name="warehouses" label="Almacenes" icon="fa-solid fa-warehouse" />
+                <q-tab name="typeProduct" label="Tipos de Productos" icon="fa-solid fa-clipboard-question" />
             </q-tabs>
 
             <q-separator />
@@ -23,7 +23,7 @@
                                 </template>
                             </q-input>
                             <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
-                            <q-btn icon="add" color="primary" to="add-product" class="q-ml-lg" />
+                            <q-btn icon="add" color="green-14" to="add-product" class="q-ml-lg" />
                         </template>
                         <template v-slot:body-cell-actions="props">
                             <q-td :props="props" class="q-ma-none">
