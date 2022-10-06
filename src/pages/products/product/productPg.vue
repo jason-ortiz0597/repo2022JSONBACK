@@ -27,10 +27,10 @@
                         </template>
                         <template v-slot:body-cell-actions="props">
                             <q-td :props="props" class="q-ma-none">
-                                <q-btn icon="visibility" color="secondary" flat round
+                                <q-btn icon="cameraswitch" color="secondary" flat round
                                     @click="myview(props.row), (confirm = true)" />
-                                <q-btn icon="edit" color="primary" flat round @click="myeditProd(props.row)" />
-                                <q-btn icon="delete" color="red" flat round @click="mydeleteProd(props.row)" />
+                                <q-btn icon="border_color" color="primary" flat round @click="myeditProd(props.row)" />
+                                <q-btn icon="delete_sweep" color="red" flat round @click="mydeleteProd(props.row)" />
                             </q-td>
                         </template>
 
@@ -59,8 +59,9 @@
                         </template>
                         <template v-slot:body-cell-actions="props">
                             <q-td :props="props" class="q-ma-none">
+                                <q-btn icon="list_alt" color="secondary" flat round @click="myProduct(props.row)" />
                                 <q-btn icon="edit" color="primary" flat round @click="myedit(props.row)" />
-                                <q-btn icon="delete" color="red" flat round @click="mydelete(props.row)" />
+                                <q-btn icon="delete" color="red" flat round @click="mydeleteWarehouse(props.row)" />
                             </q-td>
                         </template>
                     </q-table>
@@ -95,59 +96,69 @@
 
         <q-dialog v-model="confirm">
             <q-card class="my-card">
-                <q-card-section class="row">
-                    <h6 class="text-h6 q-ma-none">
-                        <q-icon name="description" color="blue-grey-8" size="1.3em" class="q-mr-xs" />
-                        Detalles del Producto
+                <q-card-section>
+                    <h6 class="q-ma-none">
+                        <q-icon name="speaker_notes" color="blue-grey-8" size="1.3em" class="q-mr-xs" />
+                        Detalle del Producto
                     </h6>
                 </q-card-section>
-                <q-img :src="productStore.imageProduct.image.secure_url" />
-
-                <q-card-section class="q-pt-none">
-                    <q-list bordered>
-
-                        <q-separator spaced inset vertical dark />
-                        <q-item-section class="text-h6 text-center">Fecha de Expiracion
+                <div class="col-6">
+                    <q-img :src="productStore.imageProduct.image.secure_url" no-native-menu>
+                        <div class="absolute-bottom text-subtitle1 text-center">
+                            {{productStore.imageProduct.name}}
+                        </div>
+                    </q-img>
+                </div>
+                <q-list>
+                    <q-item clickable>
+                        <q-item-section avatar>
+                            <q-icon color="primary" name="edit_calendar" />
                         </q-item-section>
-                        <q-item clickable v-ripple>
-                            <q-item-section avatar>
-                                <q-icon color="blue-grey-8" name="calendar_month" />
-                            </q-item-section>
 
-                            <q-item-section>
-                                {{ productStore.imageProduct.dateOfExpiration }}
-                            </q-item-section>
-                        </q-item>
-                        <q-item-section class="text-h6 text-center ">Ubicacion del Producto
+                        <q-item-section>
+                            <q-item-label>Fecha de Expiracion</q-item-label>
+                            <q-item-label caption>{{productStore.imageProduct.dateOfExpiration}}</q-item-label>
                         </q-item-section>
-                        <q-item clickable v-ripple>
-                            <q-item-section avatar>
-                                <q-icon color="green-14" name="place" />
-                            </q-item-section>
-                            <q-item-section> {{ productStore.imageProduct.warehouse.name }}
-                            </q-item-section>
-                            <q-item-section>Pasillo {{ productStore.imageProduct.hallway }}
-                            </q-item-section>
-                            <q-item-section>Estante {{ productStore.imageProduct.shelf }}
-                            </q-item-section>
-                        </q-item>
-                        <q-item-section class="text-h6 text-center">Margen de Dia de Expiracion
+                    </q-item>
+
+                    <q-item clickable>
+                        <q-item-section avatar>
+                            <q-icon color="red" name="where_to_vote" />
                         </q-item-section>
-                        <q-item clickable v-ripple>
-                            <q-item-section avatar>
-                                <q-icon color="orange-14" name="schedule" />
-                            </q-item-section>
 
-                            <q-item-section>
-                                {{ productStore.imageProduct.dayMargin }} dias
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
-                </q-card-section>
+                        <q-item-section>
+                            <q-item-label>Ubicacion del Producto</q-item-label>
+                            <q-item-label caption>{{productStore.imageProduct.warehouse.name}}</q-item-label>
+                            <q-item-label caption>Pasillo:{{productStore.imageProduct.hallway}}</q-item-label>
+                            <q-item-label caption>Estante:{{productStore.imageProduct.shelf}}</q-item-label>
+                        </q-item-section>
+                    </q-item>
 
-                <!---<q-card-actions align="right">
-                    <q-btn color="orange" label="volver" glossy class="q-mr-sm" v-close-popup />
-                </q-card-actions> -->
+                    <q-item clickable>
+                        <q-item-section avatar>
+                            <q-icon color="amber" name="workspaces" />
+                        </q-item-section>
+
+                        <q-item-section>
+                            <q-item-label>Clasificaion</q-item-label>
+                            <q-item-label caption>Categoria: {{productStore.imageProduct.subCategory.name}}
+                            </q-item-label>
+                            <q-item-label caption>Familia: {{productStore.imageProduct.category.name}}</q-item-label>
+                        </q-item-section>
+                    </q-item>
+
+                    <q-item clickable>
+                        <q-item-section avatar>
+                            <q-icon color="secondary" name="fa-solid fa-arrow-down-up-across-line" />
+                        </q-item-section>
+
+                        <q-item-section>
+                            <q-item-label>Maximos y Minimos</q-item-label>
+                            <q-item-label caption>Stock minimo: {{productStore.imageProduct.minStock}}</q-item-label>
+                            <q-item-label caption>Stock maximo: {{productStore.imageProduct.maxStock}}</q-item-label>
+                        </q-item-section>
+                    </q-item>
+                </q-list>
             </q-card>
         </q-dialog>
 
@@ -155,7 +166,12 @@
 
 
     <q-separator spaced inset vertical dark />
+
+
+
 </template>
+
+
 
 <script>
 import { ref, defineComponent, onMounted } from "vue";
@@ -180,6 +196,7 @@ const columns = [
         sortable: true,
         field: (row) => row.provaider.legalReason,
     },
+
     {
         name: "tyProduct",
         label: "Tipo de Producto",
@@ -189,28 +206,25 @@ const columns = [
     },
 
 
+
+
     {
         name: "price",
-        label: "Precio",
+        label: "Precio Bs",
         align: "left",
         sortable: true,
         field: (row) => row.price,
     },
-    {
-        name: "stock",
-        label: "Stock Minimo Requerido",
-        align: "left",
-        sortable: true,
-        field: (row) => row.stock,
-    },
 
     {
-        name: "status",
-        label: "Estado",
+        name: "unit",
+        label: "Unidad de Medida",
+        field: "unit",
         align: "left",
         sortable: true,
-        field: (row) => row.status,
+        field: (row) => row.unit.name,
     },
+
     {
         name: "actions",
         label: "Acciones",
@@ -292,11 +306,15 @@ export default defineComponent({
         const router = useRouter();
         const confirm = ref(false);
 
+
         onMounted(async () => {
             await productStore.getProducts();
             await productStore.getWarehouses();
             await productStore.getProviders();
             await productStore.getTypeProducts();
+            await productStore.getCategories();
+            await productStore.getSubcategories();
+            await productStore.getUnit();
         });
 
         return {
@@ -320,6 +338,11 @@ export default defineComponent({
                 productStore.viewImage(row._id);
             },
 
+            myProduct(row) {
+                productStore.getDetail(row._id);
+                router.push("details-product");
+            },
+
             mydeleteProd(row) {
                 $q.dialog({
                     title: "Eliminar",
@@ -335,7 +358,25 @@ export default defineComponent({
                     });
                     await productStore.getProducts();
                 });
-            }
+            },
+
+            mydeleteWarehouse(row) {
+                $q.dialog({
+                    title: "Eliminar",
+                    message: "¿Estas seguro de eliminar este almacen?",
+                    cancel: true,
+                    persistent: true,
+                }).onOk(async () => {
+                    await productStore.deleteWarehouse(row._id);
+                    $q.notify({
+                        message: "Almacen eliminado",
+                        color: "positive",
+                        icon: "check_circle",
+                    });
+                    await productStore.getWarehouses();
+                });
+            },
+
         };
     },
 });
@@ -345,4 +386,5 @@ export default defineComponent({
 .my-card
   width: 100%
   max-width: 350px
+  
 </style>

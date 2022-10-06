@@ -41,14 +41,39 @@
                       }))
                     " @myDialog="myFunction2" />
 
+                <seladdSin v-model="subCategory" v-bind:model="'name'" v-bind:label="'Categoria'"
+                    v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'workspaces'" v-bind:data="
+                      productStore.subcategories.map((item) => ({
+                        label: item.name,
+                        value: item._id,
+                      }))
+                    " @myDialog="myFunction3" />
+
+                <seladdSin v-model="category" v-bind:model="'name'" v-bind:label="'Familia'"
+                    v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'view_in_ar'" v-bind:data="
+                      productStore.categories.map((item) => ({
+                        label: item.name,
+                        value: item._id,
+                      }))
+                    " @myDialog="myFunction4" />
+
+                <seladdSin v-model="unit" v-bind:model="'name'" v-bind:label="'Unidad de Medida'"
+                    v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'settings'" v-bind:data="
+                      productStore.units.map((item) => ({
+                        label: item.name,
+                        value: item._id,
+                      }))
+                    " @myDialog="myFunction5" />
+
+
+
+
                 <q-input filled v-model="shelf" type="text" label="Estante" />
 
                 <q-input filled v-model="hallway" type="text" label="Pasillo" />
 
-                <q-input filled v-model="stock" type="number" label="Stock Minimo" lazy-rules :rules="[
-                  (val) => (val !== null && val !== '') || 'Ingrese un stock',
-                  (val) => (val > 0 && val < 99999999) || 'Ingrese un stock válido',
-                ]" />
+                <q-input filled v-model="minStock" type="number" label="Stock Minimo" />
+                <q-input filled v-model="maxStock" type="number" label="Stock Maximo" />
                 <q-input filled v-model="dateOfExpiration" type="date" hint="Fecha de Vencimiento" />
 
                 <q-input filled v-model="price" type="number" label="Precio" lazy-rules :rules="[
@@ -57,15 +82,6 @@
                 ]" />
 
                 <q-input filled v-model="dayMargin" type="number" label="Margen de Dias de Vencimiento" />
-
-
-
-
-                <!---<q-input filled v-model="status" label="Estado del Tipo de Proveedor *"
-            hint="Usar active o inactive o pending o blocked o deleted" lazy-rules :rules="[
-              (val) => (val && val.length > 1) || 'Mínimo 2 caracteres',
-              (val) => val.length < 8 || 'Máximo 5 caracteres',
-            ]" /> -->
 
 
                 <q-select filled v-model="status" label="Estado del Producto *" :options="[
@@ -97,6 +113,14 @@
     <dialog-add-type-product v-model="addTP" @cancelEvent="addTP = 'false'" @addTypeProduct="addTypeProduct" />
 
     <dialog-add-warehouse v-model="addW" @cancelEvent="addW = 'false'" @addWarehouse="addWarehouse" />
+
+
+    <dialog-add-category v-model="addC" @cancelEvent="addC = 'false'" @addCategory="addCategory" />
+
+    <dialog-add-family-vue v-model="addF" @cancelEvent="addF = 'false'" @addFamily="addFamily" />
+
+    <dialog-add-unit v-model="addU" @cancelEvent="addU = 'false'" @addUnit="addUnit" />
+
 </template>
 <script>
 import { ref } from "vue";
@@ -107,6 +131,9 @@ import selAdd from "src/components/users/selAdd.vue";
 import { useProductStore } from "stores/product-store";
 import DialogAddTypeProduct from "src/components/products/warehouse/DialogAddTypeProduct.vue";
 import DialogAddWarehouse from "src/components/products/warehouse/DialogAddWarehouse.vue";
+import DialogAddCategory from "src/components/products/category/DialogAddCategory.vue"
+import DialogAddFamilyVue from "src/components/products/category/DialogAddFamily.vue";
+import DialogAddUnit from "src/components/products/unit/DialogAddUnit.vue";
 import { api } from "src/boot/axios";
 
 export default {
@@ -116,6 +143,9 @@ export default {
         selAdd,
         DialogAddTypeProduct,
         DialogAddWarehouse,
+        DialogAddCategory,
+        DialogAddFamilyVue,
+        DialogAddUnit,
     },
     setup() {
         const $q = useQuasar();
@@ -126,6 +156,10 @@ export default {
 
         const addTP = ref(false);
         const addW = ref(false);
+        const addC = ref(false);
+        const addF = ref(false);
+        const addU = ref(false);
+
 
         const name = ref("");
         const provaider = ref("");
@@ -139,6 +173,15 @@ export default {
         const dayMargin = ref("");
         const status = ref("");
         const image = ref([]);
+        const minStock = ref("");
+        const maxStock = ref("");
+        const category = ref("");
+        const subCategory = ref("");
+        const unit = ref("");
+
+
+
+
 
 
         return {
@@ -147,6 +190,9 @@ export default {
             productStore,
             addTP,
             addW,
+            addC,
+            addF,
+            addU,
             name,
             provaider,
             typeProduct,
@@ -159,6 +205,17 @@ export default {
             dayMargin,
             status,
             image,
+            minStock,
+            maxStock,
+            category,
+            subCategory,
+            unit,
+
+
+
+
+
+
 
 
             async onSubmit() {
@@ -168,9 +225,13 @@ export default {
                     formData.append("provaider", provaider.value.value);
                     formData.append("typeProduct", typeProduct.value.value);
                     formData.append("warehouse", warehouse.value.value);
+                    formData.append("category", category.value.value);
+                    formData.append("subCategory", subCategory.value.value);
+                    formData.append("unit", unit.value.value);
                     formData.append("shelf", shelf.value);
                     formData.append("hallway", hallway.value);
-                    formData.append("stock", stock.value);
+                    formData.append("minStock", minStock.value);
+                    formData.append("maxStock", maxStock.value);
                     formData.append("dateOfExpiration", dateOfExpiration.value);
                     formData.append("price", price.value);
                     formData.append("dayMargin", dayMargin.value);
@@ -202,14 +263,20 @@ export default {
                 provaider.value = "";
                 typeProduct.value = "";
                 warehouse.value = "";
+                category.value = "";
+                subCategory.value = "";
+                unit.value = "";
                 shelf.value = "";
                 hallway.value = "";
-                stock.value = "";
+                minStock.value = "";
+                maxStock.value = "";
                 dateOfExpiration.value = "";
                 price.value = "";
                 dayMargin.value = "";
                 status.value = "";
                 image.value = [];
+                minStock.value = "";
+                maxStock.value = "";
             },
 
             myFunction(data) {
@@ -223,6 +290,21 @@ export default {
                 addW.value = true;
             },
 
+            myFunction3(data) {
+
+                addC.value = true;
+            },
+
+            myFunction4(data) {
+
+                addF.value = true;
+            },
+
+            myFunction5(data) {
+
+                addU.value = true;
+            },
+
             addTypeProvaider(data) {
                 productStore.addTypeProvider(data.name, data.description, data.status);
             },
@@ -233,6 +315,18 @@ export default {
 
             addWarehouse(data) {
                 productStore.addWarehouse(data.name, data.address, data.status);
+            },
+
+            addCategory(data) {
+                productStore.addCategory(data.name, data.abreviation, data.status);
+            },
+
+            addFamily(data) {
+                productStore.addFamily(data.name, data.description, data.abreviation, data.subCategory, data.status);
+            },
+
+            addUnit(data) {
+                productStore.addUnit(data.name, data.abreviation);
             },
         };
     },

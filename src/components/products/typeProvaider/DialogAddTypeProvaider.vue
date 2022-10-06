@@ -40,7 +40,6 @@
                     <q-separator />
                     <q-btn color="orange" label="Agregar" glossy class="q-mr-sm" @click="myFunction" />
                     <q-btn color="grey-6" label="Cancelar" type="reset" glossy @click="CancelEvent" />
-                    <q-btn color="grey-6" label="Reset" type="reset" glossy />
                 </q-form>
             </q-card-section>
 

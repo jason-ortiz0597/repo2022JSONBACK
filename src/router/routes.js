@@ -94,6 +94,10 @@ const routes = [
         component: () => import("pages/products/product/productPg.vue"),
       },
       {
+        path: "details-product",
+        component: () => import("pages/products/warehouses/warehousePg.vue"),
+      },
+      {
         path: "add-product",
         component: () => import("pages/products/product/AddProductPg.vue"),
       },

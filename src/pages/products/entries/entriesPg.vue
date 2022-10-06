@@ -33,7 +33,15 @@ const columns = [
         label: "Producto",
         align: "left",
         sortable: true,
-        field: (row) => row.product.name
+        field: (row) => row.product.name,
+    },
+
+    {
+        name: "typeEntries",
+        label: "Tipo de entrada",
+        align: "left",
+        sortable: true,
+        field: (row) => row.typeEntries.name,
     },
 
 

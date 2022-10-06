@@ -45,14 +45,30 @@
             }))
           " @myDialog="myFunction" />
 
+        <seladdSin v-model="subCategory" v-bind:model="'name'" v-bind:label="'Categoria'"
+          v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'fact_check'" v-bind:data="
+            productStore.subcategories.map((item) => ({
+              label: item.name,
+              value: item._id,
+            }))
+          " @myDialog="myFunction3" />
+
+        <seladdSin v-model="category" v-bind:model="'name'" v-bind:label="'Familia'"
+          v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'fact_check'" v-bind:data="
+            productStore.categories.map((item) => ({
+              label: item.name,
+              value: item._id,
+            }))
+          " @myDialog="myFunction4" />
+
         <q-input filled v-model="shelf" type="text" label="Estante" />
 
         <q-input filled v-model="hallway" type="text" label="Pasillo" />
 
-        <q-input filled v-model="stock" type="number" label="Stock Minimo" lazy-rules :rules="[
-          (val) => (val !== null && val !== '') || 'Ingrese un stock',
-          (val) => (val > 0 && val < 99999999) || 'Ingrese un stock válido',
-        ]" />
+        <q-input filled v-model="minStock" type="number" label="Stock Minimo" />
+        <q-input filled v-model="maxStock" type="number" label="Stock Maximo" />
+
+
         <q-input filled v-model="dateOfExpiration" type="date" hint="Fecha de Vencimiento" />
 
         <q-input filled v-model="price" type="number" label="Precio" lazy-rules :rules="[
@@ -129,9 +145,12 @@ export default {
     const provaider = ref(productStore.newProduct.provaider.legalReason) || "";
     const typeProduct = ref(productStore.newProduct.typeProduct.name) || "";
     const warehouse = ref(productStore.newProduct.warehouse.name) || "";
+    const subCategory = ref(productStore.newProduct.subCategory.name) || "";
+    const category = ref(productStore.newProduct.category.name) || "";
     const shelf = ref(productStore.newProduct.shelf) || "";
     const hallway = ref(productStore.newProduct.hallway) || "";
-    const stock = ref(productStore.newProduct.stock) || "";
+    const minStock = ref(productStore.newProduct.minStock) || "";
+    const maxStock = ref(productStore.newProduct.maxStock) || "";
     const dateOfExpiration = ref(productStore.newProduct.dateOfExpiration);
     const price = ref(productStore.newProduct.price) || "";
     const dayMargin = ref(productStore.newProduct.dayMargin) || "";
@@ -157,9 +176,12 @@ export default {
       provaider,
       typeProduct,
       warehouse,
+      subCategory,
+      category,
       shelf,
       hallway,
-      stock,
+      minStock,
+      maxStock,
       dateOfExpiration,
       price,
       dayMargin,
@@ -174,9 +196,12 @@ export default {
           data.set("provaider", provaider.value.value);
           data.set("typeProduct", typeProduct.value.value);
           data.set("warehouse", warehouse.value.value);
+          data.set("category", category.value.value);
+          data.set("subCategory", subCategory.value.value);
           data.set("shelf", shelf.value);
           data.set("hallway", hallway.value);
-          data.set("stock", stock.value);
+          data.set("minStock", minStock.value);
+          data.set("maxStock", maxStock.value);
           data.set("dateOfExpiration", dateOfExpiration.value);
           data.set("price", price.value);
           data.set("dayMargin", dayMargin.value);
@@ -187,9 +212,12 @@ export default {
           console.log(data.get("provaider", provaider.value.value));
           console.log(data.get("typeProduct", typeProduct.value.value));
           console.log(data.get("warehouse", warehouse.value.value));
+          console.log(data.get("category", category.value.value));
+          console.log(data.get("subCategory", subCategory.value.value));
           console.log(data.get("shelf"));
           console.log(data.get("hallway"));
-          console.log(data.get("stock"));
+          console.log(data.get("minStock"));
+          console.log(data.get("maxStock"));
           console.log(data.get("dateOfExpiration"));
           console.log(data.get("price"));
           console.log(data.get("dayMargin"));
@@ -226,9 +254,12 @@ export default {
         provaider.value = "";
         typeProduct.value = "";
         warehouse.value = "";
+        subCategory.value = "";
+        category.value = "";
         shelf.value = "";
         hallway.value = "";
-        stock.value = "";
+        minStock.value = "";
+        maxStock.value = "";
         dateOfExpiration.value = "";
         price.value = "";
         dayMargin.value = "";

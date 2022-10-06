@@ -12,7 +12,8 @@
             </q-avatar>
           </q-btn>
           <!----   <img src="../assets/image/logo-sii-pi-verde.svg" style="height: 6vh" class="q-my-xs" /> ---->
-
+          <!----   <q-avatar size="50px">
+            <img src="../assets/image/logo-sii-pi-verde.svg" style="height: 6vh" class="q-my-xs" /> -->
         </div>
         <div class="row">
           <div v-if="!authStore.loggedIn" class="q-gutter-sm">
@@ -101,7 +102,7 @@ const menuList = [
     separator: true,
     to: "/admin/entries",
   },
-  {
+  /*{
     icon: "first_page",
     label: "Salidas de productos",
     separator: true,
@@ -112,7 +113,13 @@ const menuList = [
     label: "Inventario",
     separator: true,
     to: "/admin/inventory",
-  }
+  }*/
+  /*{
+    icon: "receipt_long",
+    label: "Orden de Compra",
+    separator: true,
+    to: "/admin/inventory",
+  }*/
 ];
 export default defineComponent({
   setup() {

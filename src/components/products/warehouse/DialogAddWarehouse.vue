@@ -3,7 +3,7 @@
         <q-card flat bordered style="width: 500px; min-height: 100px">
             <q-card-section class="row">
                 <h6 class="text-h6 q-ma-none">
-                    <q-icon name="group_add" color="blue-grey-8" size="1.3em" class="q-mr-xs" />
+                    <q-icon name="factory" color="blue-grey-8" size="1.3em" class="q-mr-xs" />
                     Almacen
                 </h6>
             </q-card-section>
