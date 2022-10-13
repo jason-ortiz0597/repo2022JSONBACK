@@ -110,7 +110,7 @@
                     </q-img>
                 </div>
                 <q-list>
-                    <q-item clickable>
+                    <q-item clickable v-ripple>
                         <q-item-section avatar>
                             <q-icon color="primary" name="edit_calendar" />
                         </q-item-section>
@@ -121,7 +121,7 @@
                         </q-item-section>
                     </q-item>
 
-                    <q-item clickable>
+                    <q-item clickable v-ripple>
                         <q-item-section avatar>
                             <q-icon color="red" name="where_to_vote" />
                         </q-item-section>
@@ -134,7 +134,7 @@
                         </q-item-section>
                     </q-item>
 
-                    <q-item clickable>
+                    <q-item clickable v-ripple>
                         <q-item-section avatar>
                             <q-icon color="amber" name="workspaces" />
                         </q-item-section>
@@ -147,7 +147,7 @@
                         </q-item-section>
                     </q-item>
 
-                    <q-item clickable>
+                    <q-item clickable v-ripple>
                         <q-item-section avatar>
                             <q-icon color="secondary" name="fa-solid fa-arrow-down-up-across-line" />
                         </q-item-section>
@@ -166,12 +166,7 @@
 
 
     <q-separator spaced inset vertical dark />
-
-
-
 </template>
-
-
 
 <script>
 import { ref, defineComponent, onMounted } from "vue";
@@ -204,8 +199,6 @@ const columns = [
         sortable: true,
         field: (row) => row.typeProduct.name,
     },
-
-
 
 
     {
@@ -385,6 +378,5 @@ export default defineComponent({
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  max-width: 350px
-  
+  max-width: 350px  
 </style>

@@ -97,8 +97,8 @@ const menuList = [
     to: "/admin/products",
   },
   {
-    icon: "last_page",
-    label: "Entradas de productos",
+    icon: "fa-solid fa-truck-ramp-box",
+    label: "Movimiento de Productos",
     separator: true,
     to: "/admin/entries",
   },

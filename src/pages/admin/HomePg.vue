@@ -15,13 +15,9 @@
 
       <div class="q-pa-md q-gutter-sm">
         <q-img
-          src="https://res.cloudinary.com/siibolivia/image/upload/v1661540460/product-siipi2022/wyiphmxxxtwl0osb931w.jpg"
-          :ratio="16 / 9" spinner-color="primary" spinner-size="82px" style="max-width: 300px; height: 350px;" />
+          src="https://res.cloudinary.com/siibolivia/image/upload/v1665404111/product-imagesSiipi/Pagina-Principal_q0eyey.jpg"
+          :ratio="16 / 9" spinner-color="primary" spinner-size="82px" style="max-width: 700px; height: 700px;" />
 
-        <!-- Drawer Begin.  <q-img
-            src="https://res.cloudinary.com/siibolivia/image/upload/v1661540460/product-siipi2022/wyiphmxxxtwl0osb931w.jpg"
-            
-          />-->
       </div>
 
 

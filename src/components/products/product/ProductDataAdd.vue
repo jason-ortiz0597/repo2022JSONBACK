@@ -6,15 +6,12 @@
             </h6>
 
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-lg q-mt-md">
-
-
                 <q-input filled v-model="name" label="Nombre del Producto *" hint="Mínimo 3, Máximo 30 caracteres"
                     lazy-rules :rules="[
                       (val) =>
                         (val && val.length > 2) || 'Nombre(s), Mínimo 3 caracteres',
                       (val) => val.length < 31 || 'Nombre(s), Máximo 30 caracteres',
                     ]" />
-
 
                 <sel-add v-model="provaider" v-bind:model="'legalReason'" v-bind:label="'Proveedor'"
                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'assignment_ind'" v-bind:data="
@@ -23,7 +20,6 @@
                         value: item._id,
                       }))
                     " />
-
 
                 <seladdSin v-model="typeProduct" v-bind:model="'name'" v-bind:label="'Tipo de Producto'"
                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'dns'" v-bind:data="
@@ -65,24 +61,34 @@
                       }))
                     " @myDialog="myFunction5" />
 
+                <q-input filled v-model="shelf" type="text" label="Estante"> <template v-slot:prepend>
+                        <q-icon name="scatter_plot" />
+                    </template></q-input>
 
+                <q-input filled v-model="hallway" type="text" label="Pasillo"><template v-slot:prepend>
+                        <q-icon name="near_me" />
+                    </template> </q-input>
 
-
-                <q-input filled v-model="shelf" type="text" label="Estante" />
-
-                <q-input filled v-model="hallway" type="text" label="Pasillo" />
-
-                <q-input filled v-model="minStock" type="number" label="Stock Minimo" />
-                <q-input filled v-model="maxStock" type="number" label="Stock Maximo" />
+                <q-input filled v-model="minStock" type="number" label="Stock Minimo"><template v-slot:prepend>
+                        <q-icon name="fa-solid fa-arrow-trend-up" />
+                    </template>
+                </q-input>
+                <q-input filled v-model="maxStock" type="number" label="Stock Maximo"> <template v-slot:prepend>
+                        <q-icon name="fa-solid fa-arrow-trend-down" />
+                    </template>
+                </q-input>
                 <q-input filled v-model="dateOfExpiration" type="date" hint="Fecha de Vencimiento" />
 
-                <q-input filled v-model="price" type="number" label="Precio" lazy-rules :rules="[
+                <q-input filled v-model="price" type="number" prefix="Bs" label="Precio" lazy-rules :rules="[
                   (val) => (val !== null && val !== '') || 'Ingrese un precio',
                   (val) => (val > 0 && val < 99999999) || 'Ingrese un precio válido',
-                ]" />
+                ]">
+                    <template v-slot:prepend>
+                        <q-icon name="fa-solid fa-money-bill-1-wave" />
+                    </template>
+                </q-input>
 
                 <q-input filled v-model="dayMargin" type="number" label="Margen de Dias de Vencimiento" />
-
 
                 <q-select filled v-model="status" label="Estado del Producto *" :options="[
                   { label: 'active', value: 'active' },
@@ -98,9 +104,6 @@
                     </template>
                 </q-file>
 
-
-
-
                 <div>
                     <q-btn label="Guardar" type="submit" color="orange" />
                     <q-btn label="Cancelar" type="reset" color="grey-6" class="q-ml-sm" />
@@ -114,13 +117,11 @@
 
     <dialog-add-warehouse v-model="addW" @cancelEvent="addW = 'false'" @addWarehouse="addWarehouse" />
 
-
     <dialog-add-category v-model="addC" @cancelEvent="addC = 'false'" @addCategory="addCategory" />
 
     <dialog-add-family-vue v-model="addF" @cancelEvent="addF = 'false'" @addFamily="addFamily" />
 
     <dialog-add-unit v-model="addU" @cancelEvent="addU = 'false'" @addUnit="addUnit" />
-
 </template>
 <script>
 import { ref } from "vue";
@@ -131,7 +132,7 @@ import selAdd from "src/components/users/selAdd.vue";
 import { useProductStore } from "stores/product-store";
 import DialogAddTypeProduct from "src/components/products/warehouse/DialogAddTypeProduct.vue";
 import DialogAddWarehouse from "src/components/products/warehouse/DialogAddWarehouse.vue";
-import DialogAddCategory from "src/components/products/category/DialogAddCategory.vue"
+import DialogAddCategory from "src/components/products/category/DialogAddCategory.vue";
 import DialogAddFamilyVue from "src/components/products/category/DialogAddFamily.vue";
 import DialogAddUnit from "src/components/products/unit/DialogAddUnit.vue";
 import { api } from "src/boot/axios";
@@ -153,13 +154,11 @@ export default {
 
         const productStore = useProductStore();
 
-
         const addTP = ref(false);
         const addW = ref(false);
         const addC = ref(false);
         const addF = ref(false);
         const addU = ref(false);
-
 
         const name = ref("");
         const provaider = ref("");
@@ -178,11 +177,6 @@ export default {
         const category = ref("");
         const subCategory = ref("");
         const unit = ref("");
-
-
-
-
-
 
         return {
             router,
@@ -210,13 +204,6 @@ export default {
             category,
             subCategory,
             unit,
-
-
-
-
-
-
-
 
             async onSubmit() {
                 try {
@@ -251,12 +238,8 @@ export default {
                         color: "negative",
                         position: "top",
                     });
-
                 }
             },
-
-
-
 
             onReset() {
                 name.value = "";
@@ -280,28 +263,22 @@ export default {
             },
 
             myFunction(data) {
-
                 addTP.value = true;
-
             },
 
             myFunction2(data) {
-
                 addW.value = true;
             },
 
             myFunction3(data) {
-
                 addC.value = true;
             },
 
             myFunction4(data) {
-
                 addF.value = true;
             },
 
             myFunction5(data) {
-
                 addU.value = true;
             },
 
@@ -322,7 +299,13 @@ export default {
             },
 
             addFamily(data) {
-                productStore.addFamily(data.name, data.description, data.abreviation, data.subCategory, data.status);
+                productStore.addFamily(
+                    data.name,
+                    data.description,
+                    data.abreviation,
+                    data.subCategory,
+                    data.status
+                );
             },
 
             addUnit(data) {
@@ -332,4 +315,3 @@ export default {
     },
 };
 </script>
-  

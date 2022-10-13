@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 import { date } from "Quasar"
+import { watch } from 'vue'
 
 export const useProductStore = defineStore('ProductStore', {
 
@@ -16,6 +17,10 @@ export const useProductStore = defineStore('ProductStore', {
         newWarehouse: [],
         imageProduct: [],
         entries: [],
+        exits: [],
+        newEntry: [],
+        typeEntry: [],
+        typeExit: [],
         categories: [],
         subcategories: [],
         detail: [],
@@ -66,14 +71,12 @@ export const useProductStore = defineStore('ProductStore', {
             try {
                 const { data } = await api.get("api/product/list")
 
-                data.forEach(element => {
-                    element.dateOfExpiration = date.formatDate(element.dateOfExpiration, 'YYYY/MM/DD')
-                });
+                /*data.forEach(element => {
+                    element.dateOfExpiration = date.formatDate(element.dateOfExpiration)
+                });*/
+
                 console.log(data)
                 this.products = data
-
-
-
 
             } catch (error) {
                 console.log(error)
@@ -100,7 +103,19 @@ export const useProductStore = defineStore('ProductStore', {
                 const { data } = await api.get("api/entries/list")
                 console.log(data)
                 this.entries = data
+            } catch (error) {
+                console.log(error)
+            }
+        },
 
+        //* list all exits
+
+        async getExits() {
+            try {
+                const { data } = await api.get("api/exits/getExits")
+
+                console.log(data)
+                this.exits = data
 
             } catch (error) {
                 console.log(error)
@@ -147,6 +162,26 @@ export const useProductStore = defineStore('ProductStore', {
                 const { data } = await api.get("api/unit/listUnit")
                 console.log(data)
                 this.units = data
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getTypeEntry() {
+            try {
+                const { data } = await api.get("api/entries/type")
+                console.log(data)
+                this.typeEntry = data
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getTypeExit() {
+            try {
+                const { data } = await api.get("api/exits/getTypeExit")
+                console.log(data)
+                this.typeExit = data
             } catch (error) {
                 console.log(error)
             }
@@ -247,6 +282,20 @@ export const useProductStore = defineStore('ProductStore', {
             }
         },
 
+        async addTypeEntry(name, description, status) {
+            try {
+                const { data } = await api.post("api/entries/type/create", {
+                    name,
+                    description,
+                    status
+                })
+                this.typeEntry.push(data)
+
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
 
         //! delete a type provider
         async deleteTypeProvider(id) {
@@ -309,6 +358,13 @@ export const useProductStore = defineStore('ProductStore', {
             const data = this.products.find((product) => product._id === id);
             this.imageProduct = data;
         },
+
+        viewProduct(id) {
+            const data = this.entries.find((entry) => entry._id === id);
+            this.newEntry = data;
+            console.log(data)
+        },
+
 
         /*detailProduct(id) {
             const data = this.products.find((product) => product._id === id);

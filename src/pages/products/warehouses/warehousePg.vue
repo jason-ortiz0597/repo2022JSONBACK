@@ -7,8 +7,6 @@
 
                 <q-tab name="warehouses" label="Productos por Almacen" icon="fa-solid fa-boxes" />
 
-
-
             </q-tabs>
 
             <q-separator />
