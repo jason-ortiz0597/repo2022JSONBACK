@@ -61,6 +61,14 @@
             }))
           " @myDialog="myFunction4" />
 
+        <seladdSin v-model="unit" v-bind:model="'name'" v-bind:label="'Unidad de Medida'"
+          v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'settings'" v-bind:data="
+            productStore.units.map((item) => ({
+              label: item.name,
+              value: item._id,
+            }))
+          " @myDialog="myFunction5" />
+
         <q-input filled v-model="shelf" type="text" label="Estante" />
 
         <q-input filled v-model="hallway" type="text" label="Pasillo" />
@@ -147,6 +155,7 @@ export default {
     const warehouse = ref(productStore.newProduct.warehouse.name) || "";
     const subCategory = ref(productStore.newProduct.subCategory.name) || "";
     const category = ref(productStore.newProduct.category.name) || "";
+    const unit = ref(productStore.newProduct.unit) || "";
     const shelf = ref(productStore.newProduct.shelf) || "";
     const hallway = ref(productStore.newProduct.hallway) || "";
     const minStock = ref(productStore.newProduct.minStock) || "";
@@ -178,6 +187,7 @@ export default {
       warehouse,
       subCategory,
       category,
+      unit,
       shelf,
       hallway,
       minStock,
@@ -198,6 +208,7 @@ export default {
           data.set("warehouse", warehouse.value.value);
           data.set("category", category.value.value);
           data.set("subCategory", subCategory.value.value);
+          data.set("unit", unit.value.value);
           data.set("shelf", shelf.value);
           data.set("hallway", hallway.value);
           data.set("minStock", minStock.value);

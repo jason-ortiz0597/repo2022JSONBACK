@@ -4,101 +4,40 @@
       <q-toolbar class="justify-between">
         <div class="row items-center">
           <div>
-            <q-btn
-              glossy
-              @click="drawer = !drawer"
-              round
-              dense
-              icon="menu"
-              color="blue-grey-9"
-              class="q-mr-sm"
-            />
+            <q-btn glossy @click="drawer = !drawer" round dense icon="menu" color="blue-grey-9" class="q-mr-sm" />
           </div>
-          <img
-            src="../assets/image/logo-sii-pi-verde.svg"
-            style="height: 6vh"
-            class="q-my-xs"
-          />
+          <img src="../assets/image/logo-sii-pi-verde.svg" style="height: 6vh" class="q-my-xs" />
         </div>
         <div class="row">
           <div v-if="!authStore.loggedIn" class="q-gutter-sm">
-            <q-fab
-              padding="xs"
-              icon="manage_accounts"
-              v-model="fab1"
-              vertical-actions-align="right"
-              color="blue-grey-9"
-              glossy
-              direction="down"
-            >
-              <q-fab-action
-                square
-                color="blue-grey-8"
-                icon="login"
-                label="Ingresar"
-                label-position="left"
-                to="/signin"
-              />
-              <q-fab-action
-                square
-                color="blue-grey-8"
-                to="signup"
-                icon="assignment"
-                label="Registrarme"
-                label-position="left"
-              />
+            <q-fab padding="xs" icon="manage_accounts" v-model="fab1" vertical-actions-align="right" color="blue-grey-9"
+              glossy direction="down">
+              <q-fab-action square color="blue-grey-8" icon="login" label="Ingresar" label-position="left"
+                to="/signin" />
+              <q-fab-action square color="blue-grey-8" to="signup" icon="assignment" label="Registrarme"
+                label-position="left" />
             </q-fab>
+
+            <q-btn color="primary" icon="check" label="Admin" to="/admin" />
           </div>
 
           <div v-else class="q-gutter-sm">
-            <q-fab
-              padding="xs"
-              icon="manage_accounts"
-              v-model="fab2"
-              vertical-actions-align="right"
-              color="blue-grey-9"
-              glossy
-              :label="authStore.loggedIn.username"
-              direction="down"
-            >
-              <q-fab-action
-                square
-                color="blue-grey-8"
-                @click="onClick"
-                icon="manage_accounts"
-                label="Mi Perfil"
-                label-position="left"
-                to="profile"
-              />
-              <q-fab-action
-                square
-                color="blue-grey-8"
-                @click="logout"
-                icon="logout"
-                label="Salir"
-                label-position="left"
-              />
+            <q-fab padding="xs" icon="manage_accounts" v-model="fab2" vertical-actions-align="right" color="blue-grey-9"
+              glossy :label="authStore.loggedIn.username" direction="down">
+              <q-fab-action square color="blue-grey-8" @click="onClick" icon="manage_accounts" label="Mi Perfil"
+                label-position="left" to="profile" />
+              <q-fab-action square color="blue-grey-8" @click="logout" icon="logout" label="Salir"
+                label-position="left" />
             </q-fab>
           </div>
         </div>
       </q-toolbar>
       <q-tabs v-model="tab" inline-label class="bg-orange text-white shadow-2">
-        <q-tab
-          v-for="(menuItem, index) in menuList"
-          :key="index"
-          :icon="menuItem.icon"
-          :label="menuItem.label"
-        />
+        <q-tab v-for="(menuItem, index) in menuList" :key="index" :icon="menuItem.icon" :label="menuItem.label" />
       </q-tabs>
     </q-header>
 
-    <q-drawer
-      v-model="drawer"
-      :width="250"
-      :breakpoint="500"
-      bordered
-      class="bg-grey-3"
-    >
+    <q-drawer v-model="drawer" :width="250" :breakpoint="500" bordered class="bg-grey-3">
       <q-scroll-area class="fit">
         <q-list>
           <template v-for="(menuItem, index) in menuList" :key="index">
@@ -135,11 +74,7 @@
 
       <!-- Notice v-close-popup -->
       <q-card-actions class="justify-center">
-        <q-btn
-          color="blue-grey-8"
-          label="Cancelar"
-          v-close-popup="!cancelEnabled"
-        />
+        <q-btn color="blue-grey-8" label="Cancelar" v-close-popup="!cancelEnabled" />
       </q-card-actions>
     </q-card>
   </q-dialog>

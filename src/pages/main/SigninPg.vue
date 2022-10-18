@@ -33,7 +33,7 @@
       <q-btn to="/signup" icon="person" flat label="Registrate" class="col-4 q-mt-xs" />
     </div>
   </div>
-  {{username}} {{password}}
+  {{ username }} {{ password }}
 </template>
 <script>
 import { ref } from "vue";

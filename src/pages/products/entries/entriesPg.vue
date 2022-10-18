@@ -11,7 +11,7 @@
             <q-separator />
 
 
-            <q-tab-panels v-model="tab" animated>
+            <q-tab-panels v-model="tab">
 
                 <q-tab-panel name="entries">
 
@@ -64,17 +64,17 @@
                                 </q-input>
 
                                 <!--  <seladdSin v-model="unit" v-bind:model="'name'" v-bind:label="'Unidad'"
-                    v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'fa-solid fa-scale-unbalanced-flip'"
-                    v-bind:data="
-                      productStore.units.map((item) => ({
-                        label: item.name,
-                        value: item._id,
-                      }))
-                    " @myDialog="myFunction3" /> -->
+v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'fa-solid fa-scale-unbalanced-flip'"
+v-bind:data="
+  productStore.units.map((item) => ({
+    label: item.name,
+    value: item._id,
+  }))
+" @myDialog="myFunction3" /> -->
 
                                 <q-input filled v-model="date" type="date" hint="Fecha de Entrada" />
 
-                                <q-select filled v-model="status" label="Estado del Producto *" :options="[
+                                <q-select filled v-model="status" label="Estado de la Salida *" :options="[
                                   { label: 'active', value: 'active' },
                                   { label: 'inactive', value: 'inactive' },
                                   { label: 'pending', value: 'pending' },
@@ -101,6 +101,38 @@
                                 <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
                                 <!--<q-btn icon="add" color="primary" to="add-product" class="q-ml-lg" /> -->
                             </template>
+
+                            <template v-slot:body-cell-total="props">
+                                <q-td :props="props">
+                                    <!-- {{ props.row.price * props.row.quantity }} -->
+
+                                    <q-badge color="red" v-if="props.row.total ===0 "> {{ props.row.total }}
+                                    </q-badge>
+                                    <q-badge color="green" v-else> {{ props.row.total }} </q-badge>
+
+
+                                </q-td>
+                            </template>
+
+                            <template v-slot:body-cell-message="props">
+                                <q-td :props="props">
+                                    <!-- {{ props.row.price * props.row.quantity }} -->
+
+                                    <q-badge color="red" v-if="props.row.total ===0 "> "No hay Stock disponible"
+                                    </q-badge>
+                                    <q-badge color="green" v-else> "Stock Disponible" </q-badge>
+
+
+                                </q-td>
+                            </template>
+
+                            <template v-slot:body-cell-actions="props">
+                                <q-td :props="props" class="q-ma-none">
+                                    <q-btn icon="delete_sweep" color="red" flat round
+                                        @click="mydeleteEntry(props.row)" />
+                                </q-td>
+                            </template>
+
                         </q-table>
                     </div>
                 </q-tab-panel>
@@ -116,18 +148,18 @@
 
                     <div class="row justify-center">
                         <div class="col-xs-10 col-sm-6 col-md-5 col-lg-5 col-xl-2">
-                            <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-lg q-mt-md" v-if="show2">
-                                <seladdSin v-model="product" v-bind:model="'name'" v-bind:label="'Productos'"
+                            <q-form @submit="onSubmit2" @reset="onReset2" class="q-gutter-lg q-mt-md" v-if="show2">
+                                <seladdSin v-model="entry" v-bind:model="'name'" v-bind:label="'Productos de Salida'"
                                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'category'" v-bind:data="
                                       productStore.entries.map((item) => ({
-                                        label: item.name,
+                                        label: item.product.name,
                                         value: item._id,
                                       }))
                                     " @myDialog="myFunction" />
 
                                 <seladdSin v-model="typeExits" v-bind:model="'name'" v-bind:label="'Tipo de Salida'"
                                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'library_books'" v-bind:data="
-                                      productStore.typeEntry.map((item) => ({
+                                      productStore.typeExit.map((item) => ({
                                         label: item.name,
                                         value: item._id,
                                       }))
@@ -155,6 +187,7 @@
                                     </template>
                                 </q-input>
 
+
                                 <!--  <seladdSin v-model="unit" v-bind:model="'name'" v-bind:label="'Unidad'"
                                 v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'fa-solid fa-scale-unbalanced-flip'"
                                 v-bind:data="
@@ -180,11 +213,13 @@
                             </q-form>
                         </div>
                     </div>
+
+
                     <div class="q-pa-md">
                         <q-table title="Salida de Productos" :rows="productStore.exits" :columns="columns2" row-key="id"
-                            :filter="filter">
+                            :filter="filter2">
                             <template v-slot:top-right>
-                                <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+                                <q-input borderless dense debounce="300" v-model="filter2" placeholder="Search">
                                     <template v-slot:append>
                                         <q-icon name="search" />
                                     </template>
@@ -193,6 +228,60 @@
                                 <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
                                 <!--<q-btn icon="add" color="primary" to="add-product" class="q-ml-lg" /> -->
                             </template>
+                            <template v-slot:body-cell-actions="props">
+                                <q-td :props="props" class="q-ma-none">
+                                    <q-btn icon="delete_sweep" color="red" flat round
+                                        @click="mydeleteExit(props.row)" />
+                                </q-td>
+                            </template>
+
+                        </q-table>
+                    </div>
+
+                </q-tab-panel>
+
+                <q-tab-panel name="inventory">
+                    <div class="q-pa-md">
+                        <q-table title="Inventario de Productos" :rows="productStore.inventory" :columns="columns3"
+                            row-key="id" :filter="filter3">
+                            <template v-slot:top-right>
+                                <q-input borderless dense debounce="300" v-model="filter3" placeholder="Search">
+                                    <template v-slot:append>
+                                        <q-icon name="search" />
+                                    </template>
+                                </q-input>
+
+                                <!-- BOTON PARA AGREGAR NUEVO USUARIO  -->
+                                <!--<q-btn icon="add" color="primary" to="add-product" class="q-ml-lg" /> -->
+                            </template>
+
+                            <template v-slot:body-cell-totalS="props">
+                                <q-td :props="props">
+                                    <!-- {{ props.row.price * props.row.quantity }} -->
+
+
+                                    <q-badge color="red" v-if="props.row.totalS <= 0 "> {{
+                                    props.row.totalS }}
+                                    </q-badge>
+                                    <q-badge color="green" v-else> {{ props.row.totalS }} </q-badge>
+
+
+                                </q-td>
+                            </template>
+
+                            <template v-slot:body-cell-message="props">
+                                <q-td :props="props">
+                                    <!-- {{ props.row.price * props.row.quantity }} -->
+
+
+                                    <q-badge color="red" v-if="props.row.totalS <= 0 "> Agotado se requiere reposicion
+                                    </q-badge>
+                                    <q-badge color="green" v-else> Disponible </q-badge>
+
+                                </q-td>
+                            </template>
+
+
                         </q-table>
                     </div>
                 </q-tab-panel>
@@ -204,11 +293,14 @@
 
         <dialog-add-type-entry v-model="addTE" @cancelEvent="addTE = 'false'" @addTypeEntry="addTypeEntry" />
     </div>
+
+
 </template>
 
 <script>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { useProductStore } from "stores/product-store";
+import { useRouter } from "vue-router";
 import seladdSin from "src/components/users/seladdSin.vue";
 import DialogAddTypeEntry from "src/components/products/entries/DialogAddTypeEntry.vue";
 import { api } from "src/boot/axios";
@@ -233,7 +325,7 @@ const columns = [
 
     {
         name: "quantity",
-        label: "Cantidad",
+        label: "Cantidad Egresada",
         field: "quantity",
         align: "left",
         sortable: true,
@@ -241,7 +333,7 @@ const columns = [
 
     {
         name: "price",
-        label: "Precio",
+        label: "Precio de Compra",
         field: "price",
         align: "left",
         sortable: true,
@@ -249,7 +341,7 @@ const columns = [
 
     {
         name: "total",
-        label: "Total",
+        label: "Total Entrada",
         field: "total",
         align: "left",
         sortable: true,
@@ -264,9 +356,25 @@ const columns = [
     },
 
     {
+        name: "message",
+        label: "Alerta",
+        field: "message",
+        align: "left",
+        sortable: true,
+    },
+
+    {
         name: "status",
         label: "Estado",
         field: "status",
+        align: "left",
+        sortable: true,
+    },
+
+    {
+        name: "actions",
+        label: "Acciones",
+        field: "actions",
         align: "left",
         sortable: true,
     },
@@ -274,6 +382,13 @@ const columns = [
 
 const columns2 = [
 
+    {
+        name: "entry",
+        label: "Nombre Producto",
+        align: "left",
+        sortable: true,
+        field: (row) => row.entry.product.name,
+    },
 
     {
         name: "typeExits",
@@ -285,7 +400,7 @@ const columns2 = [
 
     {
         name: "quantity",
-        label: "Cantidad",
+        label: "Cantidad de Salida",
         field: "quantity",
         align: "left",
         sortable: true,
@@ -293,7 +408,7 @@ const columns2 = [
 
     {
         name: "price",
-        label: "Precio",
+        label: "Precio de Venta",
         field: "price",
         align: "left",
         sortable: true,
@@ -301,7 +416,7 @@ const columns2 = [
 
     {
         name: "total",
-        label: "Total",
+        label: "Total Disponible",
         field: "total",
         align: "left",
         sortable: true,
@@ -309,7 +424,7 @@ const columns2 = [
 
     {
         name: "date",
-        label: "Fecha Entrada",
+        label: "Fecha Salida",
         field: "date",
         align: "left",
         sortable: true,
@@ -322,7 +437,87 @@ const columns2 = [
         align: "left",
         sortable: true,
     },
+    {
+        name: "actions",
+        label: "Acciones",
+        field: "actions",
+        align: "left",
+        sortable: true,
+    },
 ];
+
+const columns3 = [
+
+    {
+        name: "product",
+        label: "Nombre Producto",
+        align: "left",
+        sortable: true,
+        field: (row) => row.product,
+    },
+
+    {
+        name: "totalEntry",
+        label: "Entradas",
+        field: "totalEntry",
+        align: "left",
+        sortable: true,
+    },
+
+    {
+        name: "totalExit",
+        label: "Salidas",
+        field: "totalExit",
+        align: "left",
+        sortable: true,
+    },
+
+    {
+        name: "totalS",
+        label: "Total Inventario",
+        field: "totalS",
+        align: "left",
+        sortable: true,
+    },
+
+
+    {
+        name: "status",
+        label: "Estado",
+        field: "status",
+        align: "left",
+        sortable: true,
+    },
+
+    {
+        name: "minStock",
+        label: "Stock Minimo",
+        field: "minStock",
+        align: "left",
+        sortable: true,
+    },
+    {
+        name: "maxStock",
+        label: "Stock Maximo",
+        field: "maxStock",
+        align: "left",
+        sortable: true,
+    },
+
+
+    {
+        name: "message",
+        label: "Alerta",
+        field: "message",
+        align: "left",
+        sortable: true,
+    },
+
+
+
+
+];
+
 
 export default {
     components: {
@@ -333,15 +528,25 @@ export default {
         const rows = ref([]);
         const productStore = useProductStore();
         const show = ref(false);
+        const show2 = ref(false);
         const product = ref("");
+        const entry = ref("");
         const typeEntries = ref("");
+        const typeExits = ref("");
         const price = ref("");
+
         const quantity = ref("");
+
         const date = ref("");
+
         const status = ref("");
+
+
         const addTE = ref(false);
         //const unit = ref("");
         const $q = useQuasar();
+
+        const router = useRouter();
 
         onMounted(async () => {
 
@@ -349,6 +554,7 @@ export default {
             await productStore.getTypeEntry();
             await productStore.getExits();
             await productStore.getTypeExit();
+            await productStore.getInventory();
         });
 
 
@@ -362,18 +568,25 @@ export default {
         return {
             columns,
             columns2,
+            columns3,
             rows,
             filter: ref(""),
+            filter2: ref(""),
+            filter3: ref(""),
             productStore,
             show,
+            show2,
             product,
+            entry,
             typeEntries,
+            typeExits,
             price,
             quantity,
             date,
             status,
             tab: ref("entries"),
             addTE,
+            router,
             //  unit,
 
             async onSubmit() {
@@ -393,6 +606,7 @@ export default {
                     });
                     await productStore.getEntries();
                     show.value = false;
+                    router.push("entries");
                 }
             },
 
@@ -404,6 +618,75 @@ export default {
                 date.value = "";
                 status.value = "";
             },
+
+            async onSubmit2() {
+                const response = await api.post("api/exits/createExits", {
+                    entry: entry.value.value,
+                    typeExits: typeExits.value.value,
+                    price: price.value,
+                    quantity: quantity.value,
+                    date: date.value,
+                    status: status.value.value,
+                });
+                if (response.status === 201) {
+                    $q.notify({
+                        message: "Salida de producto agregada",
+                        color: "positive",
+                        position: "top",
+                    });
+                    await productStore.getExits();
+                    show2.value = false;
+                }
+                // console.log(entry.value.value, typeExits.value.value, price.value, quantity.value, date.value, status.value.value);
+            },
+
+            onReset2() {
+                entry.value = "";
+                typeExits.value = "";
+                price.value = "";
+                quantity.value = "";
+                date.value = "";
+                status.value = "";
+            },
+
+
+            mydeleteEntry(row) {
+                $q.dialog({
+                    title: "Eliminar",
+                    message: "¿Estas seguro de eliminar esta Entrada?",
+                    cancel: true,
+                    persistent: true,
+                }).onOk(async () => {
+                    await productStore.deleteEntry(row._id);
+                    $q.notify({
+                        message: "Entrada eliminado",
+                        color: "positive",
+                        icon: "check_circle",
+                    });
+                    await productStore.getEntries();
+                    router.go();
+                });
+            },
+
+            mydeleteExit(row) {
+                $q.dialog({
+                    title: "Eliminar",
+                    message: "¿Estas seguro de eliminar esta Salida?",
+                    cancel: true,
+                    persistent: true,
+                }).onOk(async () => {
+                    await productStore.deleteExit(row._id);
+                    $q.notify({
+                        message: "Salida eliminado",
+                        color: "positive",
+                        icon: "check_circle",
+                    });
+                    await productStore.getExits();
+                });
+            },
+
+
+
 
             myEntry(row) {
                 productStore.viewProduct(row._id);

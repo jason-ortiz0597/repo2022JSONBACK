@@ -18,6 +18,7 @@ export const useProductStore = defineStore('ProductStore', {
         imageProduct: [],
         entries: [],
         exits: [],
+        inventory: [],
         newEntry: [],
         typeEntry: [],
         typeExit: [],
@@ -28,6 +29,8 @@ export const useProductStore = defineStore('ProductStore', {
     }),
 
     actions: {
+
+
 
         //* list all providers     
         async getProviders() {
@@ -116,6 +119,18 @@ export const useProductStore = defineStore('ProductStore', {
 
                 console.log(data)
                 this.exits = data
+
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getInventory() {
+            try {
+                const { data } = await api.get("api/exits/getInventory")
+
+                console.log(data)
+                this.inventory = data
 
             } catch (error) {
                 console.log(error)
@@ -329,6 +344,24 @@ export const useProductStore = defineStore('ProductStore', {
         async deleteWarehouse(id) {
             try {
                 const { data } = await api.delete(`api/warehouse/delete/${id}`)
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async deleteEntry(id) {
+            try {
+                const { data } = await api.delete(`api/entries/delete/${id}`)
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async deleteExit(id) {
+            try {
+                const { data } = await api.delete(`api/exits/deleteExits/${id}`)
                 console.log(data)
             } catch (error) {
                 console.log(error)

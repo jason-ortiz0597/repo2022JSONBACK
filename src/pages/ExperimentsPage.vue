@@ -1,38 +1,19 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-      <q-input
-        filled
-        v-model="username"
-        label="Tu ususario o email *"
-        hint="Name and surname"
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-      />
+      <q-input filled v-model="username" label="Tu ususario o email *" hint="Name and surname" lazy-rules
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']" />
 
-      <q-input
-        filled
-        type="password"
-        v-model="password"
-        label="Tu password Sii-pi *"
-        lazy-rules
-        :rules="[
-          (val) => (val !== null && val !== '') || 'Ingrese un password',
-          (val) =>
-            (val && val.length > 5) ||
-            'El password debe tener al menos 6 caracteres',
-        ]"
-      />
+      <q-input filled type="password" v-model="password" label="Tu password Sii-pi *" lazy-rules :rules="[
+        (val) => (val !== null && val !== '') || 'Ingrese un password',
+        (val) =>
+          (val && val.length > 5) ||
+          'El password debe tener al menos 6 caracteres',
+      ]" />
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn
-          label="Reset"
-          type="reset"
-          color="primary"
-          flat
-          class="q-ml-sm"
-        />
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
   </div>
@@ -42,7 +23,7 @@
 <script>
 import { useQuasar } from "quasar";
 import { ref } from "vue";
-import { useAuthStore } from "stores/AuthStore";
+import { useAuthStore } from "stores/auth-store.js";
 import { api } from "boot/axios";
 
 export default {
