@@ -102,6 +102,12 @@ const menuList = [
     separator: true,
     to: "/admin/entries",
   },
+  {
+    icon: "shopping_cart",
+    label: "Ordenes de Compras",
+    separator: true,
+    to: "/admin/order",
+  }
   /*{
     icon: "first_page",
     label: "Salidas de productos",

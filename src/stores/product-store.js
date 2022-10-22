@@ -26,6 +26,9 @@ export const useProductStore = defineStore('ProductStore', {
         subcategories: [],
         detail: [],
         units: [],
+
+        orders: [],
+        myproducts: [],
     }),
 
     actions: {
@@ -43,6 +46,11 @@ export const useProductStore = defineStore('ProductStore', {
                 console.log(error)
             }
         },
+
+
+
+
+
         //* list all type providers
 
         async getTypeProviders() {
@@ -166,6 +174,16 @@ export const useProductStore = defineStore('ProductStore', {
                 const { data } = await api.get(`api/product/listbywarehouse/${id}`)
                 console.log(data)
                 this.detail = data
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getProductById(id) {
+            try {
+                const { data } = await api.get(`api/order/getProductBySubCategory/${id}`)
+                console.log(data)
+                this.myproducts = data
             } catch (error) {
                 console.log(error)
             }
@@ -397,6 +415,10 @@ export const useProductStore = defineStore('ProductStore', {
             this.newEntry = data;
             console.log(data)
         },
+
+
+
+
 
 
         /*detailProduct(id) {

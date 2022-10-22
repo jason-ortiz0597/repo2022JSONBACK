@@ -117,6 +117,11 @@ const routes = [
         path: "inventory",
         component: () => import("pages/products/inventory/inventoryPg.vue"),
       },
+      {
+        path: "order",
+        component: () => import("pages/order/orderPg.vue"),
+      },
+
 
     ],
   },

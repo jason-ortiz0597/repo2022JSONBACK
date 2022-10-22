@@ -89,8 +89,8 @@ v-bind:data="
                         </div>
                     </div>
                     <div class="q-pa-md">
-                        <q-table title="Entradas de Productos" :rows="productStore.entries" :columns="columns"
-                            row-key="id" :filter="filter">
+                        <q-table title="Entradas de Productos" wrap-cells gril :rows="productStore.entries"
+                            :columns="columns" row-key="id" :filter="filter">
                             <template v-slot:top-right>
                                 <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
                                     <template v-slot:append>
