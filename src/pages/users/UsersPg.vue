@@ -1,13 +1,7 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      title="Usuarios"
-      :rows="userStore.Users"
-      :columns="columns"
-      no-data-label="No existen datos para mostrar"
-      row-key="id"
-      :filter="filter"
-    >
+    <q-table title="Usuarios" :rows="userStore.Users" :columns="columns" no-data-label="No existen datos para mostrar"
+      row-key="id" :filter="filter">
       <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
           <template v-slot:append>

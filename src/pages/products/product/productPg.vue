@@ -14,8 +14,9 @@
             <q-tab-panels v-model="tab" animated>
                 <q-tab-panel name="products">
 
-                    <q-table title="Productos" :rows="productStore.products" :columns="columns" :grid="$q.screen.xs"
-                        no-data-label="No existen datos para mostrar" row-key="id" :filter="filter">
+                    <q-table title="Productos" :separator="separator" :rows="productStore.products" :columns="columns"
+                        :grid="$q.screen.xs" no-data-label="No existen datos para mostrar" row-key="id"
+                        :filter="filter">
                         <template v-slot:top-right>
                             <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
                                 <template v-slot:append>
@@ -105,7 +106,7 @@
                 <div class="col-6">
                     <q-img :src="productStore.imageProduct.image.secure_url" no-native-menu>
                         <div class="absolute-bottom text-subtitle1 text-center">
-                            {{productStore.imageProduct.name}}
+                            {{ productStore.imageProduct.name }}
                         </div>
                     </q-img>
                 </div>
@@ -117,7 +118,7 @@
 
                         <q-item-section>
                             <q-item-label>Fecha de Expiracion</q-item-label>
-                            <q-item-label caption>{{productStore.imageProduct.dateOfExpiration}}</q-item-label>
+                            <q-item-label caption>{{ productStore.imageProduct.dateOfExpiration }}</q-item-label>
                         </q-item-section>
                     </q-item>
 
@@ -128,9 +129,9 @@
 
                         <q-item-section>
                             <q-item-label>Ubicacion del Producto</q-item-label>
-                            <q-item-label caption>{{productStore.imageProduct.warehouse.name}}</q-item-label>
-                            <q-item-label caption>Pasillo:{{productStore.imageProduct.hallway}}</q-item-label>
-                            <q-item-label caption>Estante:{{productStore.imageProduct.shelf}}</q-item-label>
+                            <q-item-label caption>{{ productStore.imageProduct.warehouse.name }}</q-item-label>
+                            <q-item-label caption>Pasillo:{{ productStore.imageProduct.hallway }}</q-item-label>
+                            <q-item-label caption>Estante:{{ productStore.imageProduct.shelf }}</q-item-label>
                         </q-item-section>
                     </q-item>
 
@@ -141,9 +142,9 @@
 
                         <q-item-section>
                             <q-item-label>Clasificaion</q-item-label>
-                            <q-item-label caption>Categoria: {{productStore.imageProduct.subCategory.name}}
+                            <q-item-label caption>Categoria: {{ productStore.imageProduct.subCategory.name }}
                             </q-item-label>
-                            <q-item-label caption>Familia: {{productStore.imageProduct.category.name}}</q-item-label>
+                            <q-item-label caption>Familia: {{ productStore.imageProduct.category.name }}</q-item-label>
                         </q-item-section>
                     </q-item>
 
@@ -154,8 +155,8 @@
 
                         <q-item-section>
                             <q-item-label>Maximos y Minimos</q-item-label>
-                            <q-item-label caption>Stock minimo: {{productStore.imageProduct.minStock}}</q-item-label>
-                            <q-item-label caption>Stock maximo: {{productStore.imageProduct.maxStock}}</q-item-label>
+                            <q-item-label caption>Stock minimo: {{ productStore.imageProduct.minStock }}</q-item-label>
+                            <q-item-label caption>Stock maximo: {{ productStore.imageProduct.maxStock }}</q-item-label>
                         </q-item-section>
                     </q-item>
                 </q-list>
@@ -322,6 +323,7 @@ export default defineComponent({
             router,
             confirm,
             tab: ref('products'),
+            separator: ref('cell'),
 
             myeditProd(row) {
                 productStore.editProduct(row._id);

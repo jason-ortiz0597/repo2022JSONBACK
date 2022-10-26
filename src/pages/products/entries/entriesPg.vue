@@ -27,25 +27,25 @@
                             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-lg q-mt-md" v-if="show">
                                 <seladdSin v-model="product" v-bind:model="'name'" v-bind:label="'Productos'"
                                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'category'" v-bind:data="
-                                      productStore.products.map((item) => ({
-                                        label: item.name,
-                                        value: item._id,
-                                      }))
+                                        productStore.products.map((item) => ({
+                                            label: item.name,
+                                            value: item._id,
+                                        }))
                                     " @myDialog="myFunction" />
 
                                 <seladdSin v-model="typeEntries" v-bind:model="'name'" v-bind:label="'Tipo de entrada'"
                                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'library_books'" v-bind:data="
-                                      productStore.typeEntry.map((item) => ({
-                                        label: item.name,
-                                        value: item._id,
-                                      }))
+                                        productStore.typeEntry.map((item) => ({
+                                            label: item.name,
+                                            value: item._id,
+                                        }))
                                     " @myDialog="myFunction" />
 
                                 <q-input filled v-model="price" type="number" prefix="Bs" label="Precio" lazy-rules
                                     :rules="[
-                                      (val) => (val !== null && val !== '') || 'Ingrese un precio',
-                                      (val) =>
-                                        (val > 0 && val < 99999999) || 'Ingrese un precio válido',
+                                        (val) => (val !== null && val !== '') || 'Ingrese un precio',
+                                        (val) =>
+                                            (val > 0 && val < 99999999) || 'Ingrese un precio válido',
                                     ]">
                                     <template v-slot:prepend>
                                         <q-icon name="fa-solid fa-money-bill-1-wave" />
@@ -54,9 +54,9 @@
 
                                 <q-input filled v-model.number="quantity" type="number" label="Cantidad" lazy-rules
                                     :rules="[
-                                      (val) => (val !== null && val !== '') || 'Ingrese una cantidad',
-                                      (val) =>
-                                        (val > 0 && val < 99999999) || 'Ingrese una cantidad válida',
+                                        (val) => (val !== null && val !== '') || 'Ingrese una cantidad',
+                                        (val) =>
+                                            (val > 0 && val < 99999999) || 'Ingrese una cantidad válida',
                                     ]">
                                     <template v-slot:prepend>
                                         <q-icon name="production_quantity_limits" />
@@ -75,11 +75,11 @@ v-bind:data="
                                 <q-input filled v-model="date" type="date" hint="Fecha de Entrada" />
 
                                 <q-select filled v-model="status" label="Estado de la Salida *" :options="[
-                                  { label: 'active', value: 'active' },
-                                  { label: 'inactive', value: 'inactive' },
-                                  { label: 'pending', value: 'pending' },
-                                  { label: 'blocked', value: 'blocked' },
-                                  { label: 'deleted', value: 'deleted' },
+                                    { label: 'active', value: 'active' },
+                                    { label: 'inactive', value: 'inactive' },
+                                    { label: 'pending', value: 'pending' },
+                                    { label: 'blocked', value: 'blocked' },
+                                    { label: 'deleted', value: 'deleted' },
                                 ]" />
                                 <div>
                                     <q-btn label="Guardar" type="submit" color="orange" />
@@ -89,8 +89,8 @@ v-bind:data="
                         </div>
                     </div>
                     <div class="q-pa-md">
-                        <q-table title="Entradas de Productos" wrap-cells gril :rows="productStore.entries"
-                            :columns="columns" row-key="id" :filter="filter">
+                        <q-table title="Entradas de Productos" :separator="separator" wrap-cells gril
+                            :rows="productStore.entries" :columns="columns" row-key="id" :filter="filter">
                             <template v-slot:top-right>
                                 <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
                                     <template v-slot:append>
@@ -106,7 +106,7 @@ v-bind:data="
                                 <q-td :props="props">
                                     <!-- {{ props.row.price * props.row.quantity }} -->
 
-                                    <q-badge color="red" v-if="props.row.total ===0 "> {{ props.row.total }}
+                                    <q-badge color="red" v-if="props.row.total === 0"> {{ props.row.total }}
                                     </q-badge>
                                     <q-badge color="green" v-else> {{ props.row.total }} </q-badge>
 
@@ -118,7 +118,7 @@ v-bind:data="
                                 <q-td :props="props">
                                     <!-- {{ props.row.price * props.row.quantity }} -->
 
-                                    <q-badge color="red" v-if="props.row.total ===0 "> "No hay Stock disponible"
+                                    <q-badge color="red" v-if="props.row.total === 0"> "No hay Stock disponible"
                                     </q-badge>
                                     <q-badge color="green" v-else> "Stock Disponible" </q-badge>
 
@@ -151,25 +151,25 @@ v-bind:data="
                             <q-form @submit="onSubmit2" @reset="onReset2" class="q-gutter-lg q-mt-md" v-if="show2">
                                 <seladdSin v-model="entry" v-bind:model="'name'" v-bind:label="'Productos de Salida'"
                                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'category'" v-bind:data="
-                                      productStore.entries.map((item) => ({
-                                        label: item.product.name,
-                                        value: item._id,
-                                      }))
+                                        productStore.entries.map((item) => ({
+                                            label: item.product.name,
+                                            value: item._id,
+                                        }))
                                     " @myDialog="myFunction" />
 
                                 <seladdSin v-model="typeExits" v-bind:model="'name'" v-bind:label="'Tipo de Salida'"
                                     v-bind:noData="'Sin datos, agregue uno'" v-bind:Icon="'library_books'" v-bind:data="
-                                      productStore.typeExit.map((item) => ({
-                                        label: item.name,
-                                        value: item._id,
-                                      }))
+                                        productStore.typeExit.map((item) => ({
+                                            label: item.name,
+                                            value: item._id,
+                                        }))
                                     " @myDialog="myFunction" />
 
                                 <q-input filled v-model="price" type="number" prefix="Bs" label="Precio" lazy-rules
                                     :rules="[
-                                      (val) => (val !== null && val !== '') || 'Ingrese un precio',
-                                      (val) =>
-                                        (val > 0 && val < 99999999) || 'Ingrese un precio válido',
+                                        (val) => (val !== null && val !== '') || 'Ingrese un precio',
+                                        (val) =>
+                                            (val > 0 && val < 99999999) || 'Ingrese un precio válido',
                                     ]">
                                     <template v-slot:prepend>
                                         <q-icon name="fa-solid fa-money-bill-1-wave" />
@@ -178,9 +178,9 @@ v-bind:data="
 
                                 <q-input filled v-model.number="quantity" type="number" label="Cantidad" lazy-rules
                                     :rules="[
-                                      (val) => (val !== null && val !== '') || 'Ingrese una cantidad',
-                                      (val) =>
-                                        (val > 0 && val < 99999999) || 'Ingrese una cantidad válida',
+                                        (val) => (val !== null && val !== '') || 'Ingrese una cantidad',
+                                        (val) =>
+                                            (val > 0 && val < 99999999) || 'Ingrese una cantidad válida',
                                     ]">
                                     <template v-slot:prepend>
                                         <q-icon name="production_quantity_limits" />
@@ -200,11 +200,11 @@ v-bind:data="
                                 <q-input filled v-model="date" type="date" hint="Fecha de Salida" />
 
                                 <q-select filled v-model="status" label="Estado de la Salida *" :options="[
-                                  { label: 'active', value: 'active' },
-                                  { label: 'inactive', value: 'inactive' },
-                                  { label: 'pending', value: 'pending' },
-                                  { label: 'blocked', value: 'blocked' },
-                                  { label: 'deleted', value: 'deleted' },
+                                    { label: 'active', value: 'active' },
+                                    { label: 'inactive', value: 'inactive' },
+                                    { label: 'pending', value: 'pending' },
+                                    { label: 'blocked', value: 'blocked' },
+                                    { label: 'deleted', value: 'deleted' },
                                 ]" />
                                 <div>
                                     <q-btn label="Guardar" type="submit" color="orange" />
@@ -216,8 +216,8 @@ v-bind:data="
 
 
                     <div class="q-pa-md">
-                        <q-table title="Salida de Productos" :rows="productStore.exits" :columns="columns2" row-key="id"
-                            :filter="filter2">
+                        <q-table title="Salida de Productos" :separator="separator" :rows="productStore.exits"
+                            :columns="columns2" row-key="id" :filter="filter2">
                             <template v-slot:top-right>
                                 <q-input borderless dense debounce="300" v-model="filter2" placeholder="Search">
                                     <template v-slot:append>
@@ -242,8 +242,8 @@ v-bind:data="
 
                 <q-tab-panel name="inventory">
                     <div class="q-pa-md">
-                        <q-table title="Inventario de Productos" :rows="productStore.inventory" :columns="columns3"
-                            row-key="id" :filter="filter3">
+                        <q-table title="Inventario de Productos" :separator="separator" :rows="productStore.inventory"
+                            :columns="columns3" row-key="id" :filter="filter3">
                             <template v-slot:top-right>
                                 <q-input borderless dense debounce="300" v-model="filter3" placeholder="Search">
                                     <template v-slot:append>
@@ -260,8 +260,9 @@ v-bind:data="
                                     <!-- {{ props.row.price * props.row.quantity }} -->
 
 
-                                    <q-badge color="red" v-if="props.row.totalS <= 0 "> {{
-                                    props.row.totalS }}
+                                    <q-badge color="red" v-if="props.row.totalS <= 0"> {{
+                                            props.row.totalS
+                                    }}
                                     </q-badge>
                                     <q-badge color="green" v-else> {{ props.row.totalS }} </q-badge>
 
@@ -274,7 +275,7 @@ v-bind:data="
                                     <!-- {{ props.row.price * props.row.quantity }} -->
 
 
-                                    <q-badge color="red" v-if="props.row.totalS <= 0 "> Agotado se requiere reposicion
+                                    <q-badge color="red" v-if="props.row.totalS <= 0"> Agotado se requiere reposicion
                                     </q-badge>
                                     <q-badge color="green" v-else> Disponible </q-badge>
 
@@ -587,6 +588,7 @@ export default {
             tab: ref("entries"),
             addTE,
             router,
+            separator: ref('cell'),
             //  unit,
 
             async onSubmit() {

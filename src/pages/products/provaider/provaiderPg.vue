@@ -12,7 +12,7 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="provaiders">
-          <q-table title="Proveedores" :rows="productStore.provaiders" :columns="columns"
+          <q-table title="Proveedores" :separator="separator" :rows="productStore.provaiders" :columns="columns"
             no-data-label="No existen datos para mostrar" row-key="id" :filter="filter">
             <template v-slot:top-right>
               <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
@@ -189,6 +189,7 @@ export default defineComponent({
       router,
       columns2,
       tab: ref('provaiders'),
+      separator: ref('cell'),
 
 
       myedit(row) {

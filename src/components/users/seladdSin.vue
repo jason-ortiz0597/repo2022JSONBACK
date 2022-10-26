@@ -1,5 +1,6 @@
 <template>
-  <q-select v-model="myValue" :filter="filter" filled :options="data" :label="label" bg-color="amber-3">
+  <q-select v-model="myValue" transition-show="scale" transition-hide="scale" :filter="filter" filled :options="data"
+    :label="label" bg-color="amber-3">
     <template v-slot:append>
       <q-icon :name="Icon" />
     </template>

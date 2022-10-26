@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 import { date } from "Quasar"
-import { watch } from 'vue'
+import { onMounted, watch } from 'vue'
 
 export const useProductStore = defineStore('ProductStore', {
 
@@ -26,12 +26,15 @@ export const useProductStore = defineStore('ProductStore', {
         subcategories: [],
         detail: [],
         units: [],
+        myitems: [],
 
         orders: [],
         myproducts: [],
     }),
 
     actions: {
+
+
 
 
 
@@ -219,6 +222,19 @@ export const useProductStore = defineStore('ProductStore', {
                 console.log(error)
             }
         },
+
+        async getPurchased() {
+            try {
+                const { data } = await api.get("/api/purchase/get")
+                console.log(data)
+                this.myitems = data
+
+
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
 
 
 
@@ -415,6 +431,9 @@ export const useProductStore = defineStore('ProductStore', {
             this.newEntry = data;
             console.log(data)
         },
+
+
+
 
 
 
